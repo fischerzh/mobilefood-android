@@ -9,8 +9,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -27,29 +29,48 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 
+import com.mobilefood.classes.JSONResponse;
 import com.mobilefood.classes.Products;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-public class HttpJsonHandler {
+public class HttpJsonHandler extends AsyncTask<String, Void, String>{
 	
+	private static final String TAG = "MobileFood";
 	private static String filePath = "file:///android_asset/products.json";
+	private Activity act;
+	private JSONObject result = null;
+	private String url;
+	private JSONObject jsonObj;
+	
+	public HttpJsonHandler(Activity act, String url, JSONObject json) 
+	{
+			this.act = act;
+			this.url = url;
+			this.jsonObj = json;
+			
+			// TODO Auto-generated constructor stub
+	}
 	
 	public static JSONObject getJSON(String url)
 	{
-		if ( Changed(url) ) 
-		{
-			System.out.println("File has changed");
-			return getJSONfromURL(url);
-		} 
-		else
-		{
-			System.out.println("File not changed");
-			return getJSONfromFile(filePath);
-		}
+		return getJSONfromURL(url);
+//		if ( Changed(url) ) 
+//		{
+//			System.out.println("File has changed");
+//			return getJSONfromURL(url);
+//		} 
+//		else
+//		{
+//			System.out.println("File not changed");
+//			return getJSONfromFile(filePath);
+//		}
 	}
 	
     public void parseJSONtoObj(String url) {
@@ -60,10 +81,9 @@ public class HttpJsonHandler {
         
         Reader reader = new InputStreamReader(source);
         System.out.println("reader: " + reader);
-        Products product = gson.fromJson(reader, Products.class);
-        
+        JSONResponse response = gson.fromJson(reader, JSONResponse.class);
         //Toast.makeText(Context, (CharSequence)product.name, Toast.LENGTH_SHORT).show();
-        System.out.println("Product: " + product.name);
+        System.out.println("Product Name: " + response.products.toString().compareTo("") != null ? response.products.toString() : "null");
         
     }
     
@@ -227,5 +247,27 @@ public class HttpJsonHandler {
         return null;
         
      }
+
+	@Override
+	protected String doInBackground(String... params) {
+		// TODO Auto-generated method stub
+		//prepare post parameters				
+		//query
+		System.out.println("Params: " + params);
+		Log.w(getClass().getSimpleName(), "Error for URL " + params);
+		parseJSONtoObj(params.toString());
+		return "Parse done";
+	}
+	
+    @Override
+    protected void onPostExecute(String result) {
+    	System.out.println(result);
+    }
+    
+	protected void onProgressUpdate(Integer... value) {
+
+		super.onProgressUpdate();
+		
+	}
 
 }

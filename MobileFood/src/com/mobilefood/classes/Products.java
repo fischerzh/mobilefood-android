@@ -1,5 +1,6 @@
 package com.mobilefood.classes;
 
+import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
 
 
@@ -7,16 +8,19 @@ public class Products {
 	
 	//public List<>
 	
-	@DatabaseField(generatedId = true)
+	//@DatabaseField(generatedId = true)
 	public int id;
 	
-	@DatabaseField(index=true)
+	//@DatabaseField(index=true)
+	@SerializedName("name")
 	public String name;
 	
-	@DatabaseField
+	//@DatabaseField
+	@SerializedName("producer")
 	public String producer;
 	
-	@DatabaseField
+	//@DatabaseField
+	@SerializedName("kontrolleur")
 	public String kontrolleur;
 
 	Products() {
