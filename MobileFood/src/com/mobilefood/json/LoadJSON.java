@@ -8,6 +8,8 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,6 +21,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+import com.mobilefood.classes.Products;
 import com.mobilefood.classes.TwitterTrend;
 import com.mobilefood.classes.TwitterTrends;
 
@@ -36,7 +40,8 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
     private String jsonURL;
     
     private JSONObject jsonObj;
-    
+    private List<Products> productsList;
+    private List<TwitterTrends> messageList;
     /*
      * Public Constructor
      */
@@ -78,7 +83,14 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		
 		//Only for temporary use!
 		//setJsonObj(getJSONObjectFromURL(jsonURL));
-		runJSONParser();
+		//runJSONParser();
+		try {
+			messageList = readJsonStream();
+			System.out.println(messageList.get(0).getTrends().get(0).getName());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		publishProgress(100);
 		return "JSON Object ready";
 		
@@ -181,6 +193,22 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
         }
         
         return data;
+    }
+	
+	public List<TwitterTrends> readJsonStream() throws IOException 
+	{	
+		System.out.println("Json Stream reading..");
+		Gson gson = new Gson();
+		JsonReader reader = new JsonReader(new InputStreamReader(getJSONData("https://api.twitter.com/1/trends/1.json"), "UTF-8"));
+        List<TwitterTrends> messages = new ArrayList<TwitterTrends>();
+        reader.beginArray();
+        while (reader.hasNext()) {
+        	TwitterTrends message = gson.fromJson(reader, TwitterTrends.class);
+            messages.add(message);
+        }
+        reader.endArray();
+        reader.close();
+        return messages;
     }
 	
 	

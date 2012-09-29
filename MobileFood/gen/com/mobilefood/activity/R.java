@@ -10,9 +10,6 @@ package com.mobilefood.activity;
 public final class R {
     public static final class attr {
     }
-    public static final class building_list {
-        public static final int search_box=0x7f080000;
-    }
     public static final class drawable {
         public static final int button1=0x7f020000;
         public static final int button1_1=0x7f020001;
@@ -27,7 +24,7 @@ public final class R {
     }
     public static final class id {
         public static final int TextView01=0x7f070008;
-        public static final int btn_buy=0x7f07000c;
+        public static final int btn_info=0x7f07000c;
         public static final int btn_star=0x7f07000a;
         public static final int button2=0x7f070005;
         public static final int button3=0x7f070006;
@@ -44,8 +41,6 @@ public final class R {
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int products_item=0x7f030001;
-        public static final int products_main=0x7f030002;
-        public static final int searchable=0x7f030003;
     }
     public static final class menu {
         public static final int activity_main=0x7f060000;
