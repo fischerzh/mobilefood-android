@@ -44,10 +44,16 @@ public class HttpJsonHandler extends AsyncTask<String, Void, String>{
 	
 	private static final String TAG = "MobileFood";
 	private static String filePath = "file:///android_asset/products.json";
+	private String webURL = "http://www.uitiwg.ch/products.json";
 	private Activity act;
 	private JSONObject result = null;
 	private String url;
 	private JSONObject jsonObj;
+	private List<Products> product_list;
+	
+	public HttpJsonHandler() {
+		
+	}
 	
 	public HttpJsonHandler(Activity act, String url, JSONObject json) 
 	{
@@ -74,16 +80,27 @@ public class HttpJsonHandler extends AsyncTask<String, Void, String>{
 	}
 	
     public void parseJSONtoObj(String url) {
-                
-        InputStream source = retrieveStream(url);
-        
+                        
         Gson gson = new Gson();
-        
-        Reader reader = new InputStreamReader(source);
-        System.out.println("reader: " + reader);
-        JSONResponse response = gson.fromJson(reader, JSONResponse.class);
-        //Toast.makeText(Context, (CharSequence)product.name, Toast.LENGTH_SHORT).show();
-        System.out.println("Product Name: " + response.products.toString().compareTo("") != null ? response.products.toString() : "null");
+
+        JSONResponse response = null;
+        Products prod = null;
+
+        prod = gson.fromJson(getJSON(url).toString(), Products.class);
+        System.out.println("Products scanned: " + prod);
+        System.out.println("Name: " + prod.getName());
+//        if (prod != null)
+//        {
+//        	for (int i = 0; i < prod.size(); i++) {
+//        		Products prods;
+//        		prods = response.products.get(i);
+//        		product_list.add(prods); //Adding each post to the list
+//        		System.out.println("Product added: " + prods.getName());
+//                //Toast.makeText(Context, (CharSequence)prod.getName(), Toast.LENGTH_SHORT).show();
+//
+//        	}
+//        }
+
         
     }
     
@@ -137,69 +154,25 @@ public class HttpJsonHandler extends AsyncTask<String, Void, String>{
 		InputStream is = null;
 		String result = "";
 		JSONObject jArray = null;
-
-		try {
-			JsonReader reader = new JsonReader(new FileReader(fileName));
-		 
-			reader.beginObject();
-		 
-			while (reader.hasNext()) {
-		 
-			  String name = reader.nextName();
-		 
-			  if (name.equals("name")) {
-		 
-				System.out.println(reader.nextString());
-		 
-			  } else if (name.equals("age")) {
-		 
-				System.out.println(reader.nextInt());
-		 
-			  } else if (name.equals("message")) {
-		 
-				// read array
-				reader.beginArray();
-		 
-				while (reader.hasNext()) {
-					System.out.println(reader.nextString());
-				}
-		 
-				reader.endArray();
-		 
-			  } else {
-				reader.skipValue(); //avoid some unhandle events
-			  }
-		        }
-		 
-			reader.endObject();
-			reader.close();
-		 
-		     } catch (FileNotFoundException e) {
-			e.printStackTrace();
-		     } catch (IOException e) {
-			e.printStackTrace();
-		     }
-		
-		
 		//read from file
-//		try{
-//			Gson gson = new Gson();
-////			BufferedReader reader = new BufferedReader(new FileReader(fileName));
-//			BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
-//			StringBuilder sb = new StringBuilder();
-//			String line = null;
-//			while ((line = reader.readLine()) != null) {
-//				sb.append(line + "\n");
-//				System.out.println("line: " + line);
-//			}
-//			is.close();
-//			result=sb.toString();
-//			Products obj = gson.fromJson(reader, Products.class);
-//			 
-//			System.out.println(obj);
-//		}catch(Exception e){
-//			Log.e("log_tag", "Error converting result "+e.toString());
-//		}
+		try{
+			Gson gson = new Gson();
+//			BufferedReader reader = new BufferedReader(new FileReader(fileName));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
+			StringBuilder sb = new StringBuilder();
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line + "\n");
+				System.out.println("line: " + line);
+			}
+			is.close();
+			result=sb.toString();
+			Products obj = gson.fromJson(reader, Products.class);
+			 
+			System.out.println(obj);
+		}catch(Exception e){
+			Log.e("log_tag", "Error converting result "+e.toString());
+		}
 
 		return jArray;
 	}
@@ -251,11 +224,7 @@ public class HttpJsonHandler extends AsyncTask<String, Void, String>{
 	@Override
 	protected String doInBackground(String... params) {
 		// TODO Auto-generated method stub
-		//prepare post parameters				
-		//query
-		System.out.println("Params: " + params);
-		Log.w(getClass().getSimpleName(), "Error for URL " + params);
-		parseJSONtoObj(params.toString());
+		parseJSONtoObj(this.webURL);
 		return "Parse done";
 	}
 	

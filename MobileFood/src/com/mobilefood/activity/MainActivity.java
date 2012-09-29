@@ -1,11 +1,8 @@
 package com.mobilefood.activity;
 
-import org.json.JSONObject;
-
 import com.mobilefood.activity.R;
-import com.mobilefood.httphandler.DownloadFoodList;
-import com.mobilefood.httphandler.HttpJsonHandler;
 import com.mobilefood.barcode.*;
+import com.mobilefood.json.LoadJSON;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -14,16 +11,12 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.os.Handler;
 
 public class MainActivity extends Activity {
 	
-	private Handler handler;
 	private TextView textView;
 	private Button scanButton, productsButton;
-	private String url = "http://www.uitiwg.ch/products.json";
-	private JSONObject jsonObj;
+	private String jsonUrl = "http://www.uitiwg.ch/products.json";
 	private Activity act;
 
     @Override
@@ -31,42 +24,48 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.act = MainActivity.this;
-        textView = (TextView) findViewById(R.id.TextView01);
+        this.textView = (TextView) findViewById(R.id.TextView01);
+        
+        //Set Buttons
         scanButton = (Button) findViewById(R.id.scanButton);
         productsButton = (Button) findViewById(R.id.button_products);
-        readWebpage(scanButton);
         
+        //Start AsyncTask for JSON
+        startJSONSync();
+        
+        //Procucts
         productsButton.setOnClickListener(new Button.OnClickListener() {
         	public void onClick(View v) {
-        		//return
-        		System.out.println("Button clicked");
+        		System.out.println("Product clicked");
         		startProductAcitivty();
         	}
         });
+        
+        //Scanning
         scanButton.setOnClickListener(new Button.OnClickListener() {
         	public void onClick(View v) {
-        		System.out.println("Scan Product");
-                //HttpJsonHandler handler = new HttpJsonHandler(MainActivity.this, url, jsonObj);
-                //DownloadFoodList foodList = new DownloadFoodList();
-                //readWebpage(scanButton);
+        		System.out.println("Scan Product clicked");
+
         		IntentIntegrator integrator = new IntentIntegrator(act);
         		integrator.initiateScan();
-//        		Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-//                intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-//                startActivityForResult(intent, 0);
+
         	}
     	});
-        
-        
-        
+                
     }
     
+	/*
+     * Handle Scanner Result
+     * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
                 String contents = intent.getStringExtra("SCAN_RESULT");
+                System.out.println("Scan Result: "  + contents);
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 // Handle successful scan
+                
             } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel
             }
@@ -74,23 +73,26 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    /*
+     * (non-Javadoc)
+     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
     
-    
-    
-    public void readWebpage(View view) {
-        DownloadFoodList task = new DownloadFoodList();
-        //HttpJsonHandler handler = new HttpJsonHandler(MainActivity.this, url, jsonObj);
-        //System.out.println("Products: " + HttpJsonHandler.getJSONfromFile("file:///android_asset/products.json") );
-        //System.out.println("Products: " + HttpJsonHandler.getJSONfromURL("http://www.uitiwg.ch/products.json"));
-        System.out.println("Products: " + HttpJsonHandler.getJSON(url));
-        //handler.parseJSONtoObj(url);
-        //task.execute(new String[] { "http://www.vogella.com" });
-        
-      }
+   
+    /*
+     * Start JSON Synchronization
+     */
+    public void startJSONSync()
+    {
+    	// Start Sync
+    	System.out.println("Start JSON Sync");
+    	LoadJSON jsonLoader = new LoadJSON(this.act, jsonUrl);
+    	jsonLoader.execute();
+    }
     
     public void startProductAcitivty()
     {
