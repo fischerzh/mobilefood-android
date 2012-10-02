@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
@@ -70,6 +71,7 @@ public class MainActivity extends Activity {
                 System.out.println("Scan Result: "  + contents);
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 // Handle successful scan
+                Toast.makeText(getApplicationContext(),"Product scanned: " + contents, Toast.LENGTH_LONG).show();		
                 
             } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel

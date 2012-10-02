@@ -132,6 +132,7 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
         URI uri;
         InputStream data = null;
         try {
+    		System.out.println("Start HTTP Download Request..");
             uri = new URI(url);
             HttpGet method = new HttpGet(uri);
             HttpResponse response = httpClient.execute(method);
@@ -139,7 +140,8 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+		System.out.println("Finished HTTP Download Request..");
+
         return data;
     }
 	
