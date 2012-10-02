@@ -1,4 +1,4 @@
-package com.mobilefood.classes;
+package com.mobilefood.classes.old;
 
 import java.util.Date;
 import java.util.List;

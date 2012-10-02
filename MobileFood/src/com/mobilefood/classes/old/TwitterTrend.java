@@ -1,4 +1,4 @@
-package com.mobilefood.classes;
+package com.mobilefood.classes.old;
 
 public class TwitterTrend {
     private String name;

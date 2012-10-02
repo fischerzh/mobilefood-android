@@ -1,14 +1,14 @@
-{
-	"Products":[
-		{
-			"name":"Ruchbrot",
-			"producer":"Migros",
-			"kontrolleur":"1"
-		},
-		{
-			"name":"Banane",
-			"producer":"Migros",
-			"kontrolleur":"1"
-		}
-	]
-}
+[
+	{
+		"products":[
+			{
+				"name":"Banane",
+				"producer":"Migros"
+			},
+			{
+				"name":"Brot",
+				"producer":"Coop"
+			}
+		]
+	}
+]

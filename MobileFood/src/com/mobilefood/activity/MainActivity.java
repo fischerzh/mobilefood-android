@@ -2,6 +2,7 @@ package com.mobilefood.activity;
 
 import com.mobilefood.activity.R;
 import com.mobilefood.barcode.*;
+import com.mobilefood.classes.ProductsHelper;
 import com.mobilefood.json.LoadJSON;
 
 import android.os.Bundle;
@@ -18,6 +19,8 @@ public class MainActivity extends Activity {
 	private Button scanButton, productsButton;
 	private String jsonUrl = "http://www.uitiwg.ch/products.json";
 	private Activity act;
+	private ProductActivity prodAct;
+	LoadJSON jsonLoader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,10 +36,12 @@ public class MainActivity extends Activity {
         //Start AsyncTask for JSON
         startJSONSync();
         
+        
         //Procucts
         productsButton.setOnClickListener(new Button.OnClickListener() {
         	public void onClick(View v) {
         		System.out.println("Product clicked");
+            	//ProductsHelper.setProductsList(jsonLoader.getProductsList());
         		startProductAcitivty();
         	}
         });
@@ -90,8 +95,9 @@ public class MainActivity extends Activity {
     {
     	// Start Sync
     	System.out.println("Start JSON Sync");
-    	LoadJSON jsonLoader = new LoadJSON(this.act, jsonUrl);
+    	jsonLoader = new LoadJSON(this.act, jsonUrl);
     	jsonLoader.execute();
+    	
     }
     
     public void startProductAcitivty()

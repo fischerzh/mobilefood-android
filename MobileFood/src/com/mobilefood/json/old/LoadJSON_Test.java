@@ -1,4 +1,4 @@
-package com.mobilefood.json;
+package com.mobilefood.json.old;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,7 +27,6 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.mobilefood.classes.Products;
-import com.mobilefood.classes.ProductsHelper;
 import com.mobilefood.classes.old.TwitterTrend;
 import com.mobilefood.classes.old.TwitterTrends;
 
@@ -37,7 +36,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class LoadJSON extends AsyncTask<Context, Integer, String> {
+public class LoadJSON_Test extends AsyncTask<Context, Integer, String> {
     
 	/* UI Elements */
 	ProgressDialog dialog ;
@@ -53,7 +52,7 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	private List<TwitterTrends> messageList;
 	
     /* Public Constructor */
-    public LoadJSON(Activity act, String url)
+    public LoadJSON_Test(Activity act, String url)
     {
 		setUrl(url);
 		setContext(act);
@@ -87,6 +86,14 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	public void setProductsList(List<Products> productsList) {
 		this.productsList = productsList;
 	}
+	
+	public JSONObject getJsonObj() {
+		return jsonObj;
+	}
+
+	private void setJsonObj(JSONObject jsonObj) {
+		this.jsonObj = jsonObj;
+	}
 
 	/*
 	 * Start JSON download
@@ -98,6 +105,9 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		System.out.println("Start JSON Loader");
 		publishProgress(0);
 		
+		//Only for temporary use!
+		//setJsonObj(getJSONObjectFromURL(jsonURL));
+		//runJSONParser();
 		try {
 			
 			setProductsList(readJsonStreamProducts());
@@ -126,7 +136,73 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 //		}
 	}
 
+    
+	private JSONObject getJSONObjectFromURL(String url)
+	{	
+		//JSON Object to be returned;
+		JSONObject json = null;
+		
+		System.out.println("get Json from URL");
+		HttpClient httpclient = new DefaultHttpClient();
+		 
+        // Prepare a request object
+        HttpGet httpget = new HttpGet(url); 
+ 
+        // Execute the request
+        HttpResponse response;
+        try {
+            response = httpclient.execute(httpget);
+            // Examine the response status
+            Log.i("Response Status",response.getStatusLine().toString());
+ 
+            // Get hold of the response entity
+            HttpEntity entity = response.getEntity();
+            // If the response does not enclose an entity, there is no need
+            // to worry about connection release
+ 
+            if (entity != null) {
+ 
+                // A Simple JSON Response Read
+                InputStream instream = entity.getContent();
+                String result= convertStreamToString(instream);
+                Log.i("Result",result);
+ 
+                // A Simple JSONObject Creation
+                json=new JSONObject(result);
+                Log.i("JSON Object","<jsonobject>\n"+json.toString()+"\n</jsonobject>");
+                
+                // Closing the input stream will trigger connection release
+                instream.close();
+            }
 
+ 
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        
+        return json;
+	}
+//	
+//	public void runJSONParser()
+//	{
+//		try{
+//	        System.out.println("Json Parser started..");
+//	        Gson gson = new Gson();
+//	        Reader r = new InputStreamReader(getJSONData("https://api.twitter.com/1/trends/1.json"));
+//	        TwitterTrends objs = gson.fromJson(r, TwitterTrends.class);
+//	        Log.i("MY INFO", ""+objs.getTrends().size());
+//	        for(TwitterTrend tr : objs.getTrends()){
+//	            Log.i("TRENDS", tr.getName() + " - " + tr.getUrl());
+//	        }
+//	        }catch(Exception ex){
+//	            ex.printStackTrace();
+//	        }
+//	}
+//	
 	public InputStream getJSONDataFromURL(String url){
         DefaultHttpClient httpClient = new DefaultHttpClient();
         URI uri;
@@ -143,12 +219,29 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
         return data;
     }
 	
+//	public List<TwitterTrends> readJsonStream() throws IOException 
+//	{	
+//		System.out.println("Json Stream reading..");
+//		Gson gson = new Gson();
+//		JsonReader reader = new JsonReader(new InputStreamReader(getJSONData("https://api.twitter.com/1/trends/1.json"), "UTF-8"));
+//		
+//        List<TwitterTrends> messages = new ArrayList<TwitterTrends>();
+//        reader.beginArray();
+//        while (reader.hasNext()) {
+//        	TwitterTrends message = gson.fromJson(reader, TwitterTrends.class);
+//            messages.add(message);
+//        }
+//        reader.endArray();
+//        reader.close();
+//        return messages;
+//    }
+	
 	public List<Products> readJsonStreamProducts() throws IOException 
 	{	
 		System.out.println("Json Stream reading..");
 		Gson gson = new Gson();
-		JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(
-				getJSONDataFromURL("http://www.uitiwg.ch/products.json"), "UTF-8")));
+		JsonReader reader = new JsonReader(new InputStreamReader(
+				getJSONDataFromURL("http://www.uitiwg.ch/products.json"), "UTF-8"));
 			// TODO getJSONDataFromFile or getJSONDataFromSharedPreferences!
         List<Products> products = new ArrayList<Products>();
         reader.beginArray();
@@ -158,7 +251,6 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
         }
         reader.endArray();
         reader.close();
-        System.out.println("Reading finished");
         return products;
     }	
 	
@@ -221,18 +313,44 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		
 		return jsonFile;
 	}
-    
+	
+	private static String convertStreamToString(InputStream is) {
+        /*
+         * To convert the InputStream to String we use the BufferedReader.readLine()
+         * method. We iterate until the BufferedReader return null which means
+         * there's no more data to read. Each line will appended to a StringBuilder
+         * and returned as String.
+         */
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+ 
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
+    }
+	
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		ProductsHelper.setProductsList(getProductsList());
 	}
 	
 	protected void onProgressUpdate(Integer... value) {
+
 		super.onProgressUpdate();
-		
 		if(value[0]<100)
 		{
-			dialog = ProgressDialog.show(getContext(),"Please wait...", "Downloading Product Information", true);
+			dialog = ProgressDialog.show(getContext(),"Please wait...", "Request in progress", true);
 		}
 		else
 		{
