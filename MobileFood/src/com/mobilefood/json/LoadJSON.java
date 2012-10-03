@@ -102,6 +102,7 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 			
 			setProductsList(readJsonStreamProducts());
 			System.out.println(productsList.get(0).getProducts().get(0).getName());
+			System.out.println(productsList.get(0).getProducts().get(0).getEan());
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

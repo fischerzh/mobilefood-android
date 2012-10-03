@@ -2,13 +2,66 @@
 	{
 		"products":[
 			{
+                "ean":"07302896",
+                "is_kosher":"true",
 				"name":"Banane",
 				"producer":"Migros"
 			},
 			{
+                "ean":"012345678",
+                "is_kosher":"true",
 				"name":"Brot",
 				"producer":"Coop"
+			},
+			{   
+                "ean":"012345679",
+                "is_kosher":"true",
+				"name":"Gurke",
+				"producer":"Coop"
+			},
+			{   
+                "ean":"012345679",
+                "is_kosher":"true",
+				"name":"Apfel",
+				"producer":"Migros"
+			},
+			{   
+                "ean":"012345679",
+                "is_kosher":"true",
+				"name":"Cola",
+				"producer":"Coop"
+			},
+			{   
+                "ean":"012345679",
+                "is_kosher":"true",
+                "name":"Orange",
+				"producer":"Migros"
+			},
+			{   
+                "ean":"012345679",
+                "is_kosher":"true",
+				"name":"Käse",
+				"producer":"Coop"
+			},
+			{   
+                "ean":"012345679",
+                "is_kosher":"true",
+				"name":"Milch",
+				"producer":"Migros"
+			},
+			{   
+                "ean":"012345679",
+                "is_kosher":"true",
+				"name":"Sugus",
+				"producer":"Coop"
+			},
+			{   
+                "ean":"012345679",
+                "is_kosher":"true",
+				"name":"Berocca",
+				"producer":"Migros"
 			}
+			
 		]
 	}
 ]

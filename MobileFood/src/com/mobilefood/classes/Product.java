@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Product {
 	
+	@SerializedName("ean")
+	private String ean;
+	
 	@SerializedName("name")
 	private String name;
 
@@ -13,6 +16,20 @@ public class Product {
 	@SerializedName("kontrolleur")
 	private String kontrolleur;
 	
+	
+	/**
+	 * @return the ean
+	 */
+	public String getEan() {
+		return ean;
+	}
+	
+	/**
+	 * @param ean the ean to set
+	 */
+	public void setEan(String ean) {
+		this.ean = ean;
+	}
 	
 	/**
 	 * @return the name

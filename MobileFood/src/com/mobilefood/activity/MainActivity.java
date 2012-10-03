@@ -2,11 +2,13 @@ package com.mobilefood.activity;
 
 import com.mobilefood.activity.R;
 import com.mobilefood.barcode.*;
+import com.mobilefood.classes.Product;
 import com.mobilefood.classes.ProductsHelper;
 import com.mobilefood.json.LoadJSON;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -21,15 +23,18 @@ public class MainActivity extends Activity {
 	private String jsonUrl = "http://www.uitiwg.ch/products.json";
 	private Activity act;
 	private ProductActivity prodAct;
+	private Context applicationContext;
 	LoadJSON jsonLoader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.activity_main);
+        
         this.act = MainActivity.this;
         this.textView = (TextView) findViewById(R.id.TextView01);
-        
+        this.applicationContext = getApplicationContext();
         //Set Buttons
         scanButton = (Button) findViewById(R.id.scanButton);
         productsButton = (Button) findViewById(R.id.button_products);
@@ -65,18 +70,32 @@ public class MainActivity extends Activity {
      * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
      */
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 0) {
-            if (resultCode == RESULT_OK) {
+    	//Toast.makeText(MainActivity.this.applicationContext,"Product scanned: " + intent.getStringExtra("SCAN_RESULT"), Toast.LENGTH_LONG).show();	
+//        if (requestCode == 0) {
+//            if (resultCode == RESULT_OK) {
+    		boolean productFound = false;
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 System.out.println("Scan Result: "  + contents);
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 // Handle successful scan
-                Toast.makeText(getApplicationContext(),"Product scanned: " + contents, Toast.LENGTH_LONG).show();		
+                Toast.makeText(MainActivity.this.applicationContext,"Product scanned: " + contents, Toast.LENGTH_LONG).show();		
                 
-            } else if (resultCode == RESULT_CANCELED) {
+                for (Product prod : ProductsHelper.getProductsList().get(0).getProducts())
+                {
+                	if (prod.getEan().compareTo(contents) == 0 || prod.getEan().contains(contents)) 
+                	{
+                        Toast.makeText(MainActivity.this.applicationContext,"Product scanned: " + prod.getName() + " von " + prod.getProducer(), Toast.LENGTH_SHORT).show();		
+                        Toast.makeText(MainActivity.this.applicationContext,"PRODUCT IS KOSHER!", Toast.LENGTH_LONG).show();	
+                        productFound = true;
+                	}
+                }
+                if (!productFound)
+                    Toast.makeText(MainActivity.this.applicationContext,"NO PRODUCT FOUND: NOT KOSHER!", Toast.LENGTH_LONG).show();	
+
+//            } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel
-            }
-        }
+//            }
+//        }
     }
 
     @Override

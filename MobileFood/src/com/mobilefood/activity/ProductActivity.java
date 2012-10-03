@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.Adapter;
 import com.mobilefood.activity.R;
 import com.mobilefood.classes.Product;
 import com.mobilefood.classes.Products;
@@ -33,6 +34,8 @@ public class ProductActivity extends Activity{
 	private TextView productContent;
 	private ListView lv;
 	private EditText editTxt;
+	
+	CustomAdapter myAdapter;
 	
 	ArrayAdapter<String> arrad;
 	ArrayAdapter<String> productNames;
@@ -70,18 +73,14 @@ public class ProductActivity extends Activity{
         });
         
         
-        this.productNames = new ArrayAdapter<String>(this, R.layout.products_item, R.id.product_content, data);
-
-        //lv.setAdapter(new CustomAdapter(this, data));
+        //this.productNames = new ArrayAdapter<String>(this, R.layout.products_item, R.id.product_content, data);
+        myAdapter = new CustomAdapter(this, data);
+        lv.setAdapter(myAdapter);
+        
+//        lv.setAdapter(productNames);
+//        lv.setTextFilterEnabled(true);
+        
 		//arrad = new ArrayAdapter<String>(this,  android.R.layout.simple_list_item_1, data);
-		lv.setAdapter(productNames);
-        lv.setTextFilterEnabled(true);
-        lv.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-	       	    Toast.makeText(getApplicationContext(),"Click ListItem Number " + pos, Toast.LENGTH_LONG).show();				
-			}
-        	}); 
         
         editTxt.addTextChangedListener(new TextWatcher()
         {
@@ -101,7 +100,8 @@ public class ProductActivity extends Activity{
            public void afterTextChanged( Editable arg0)
            {
                // TODO Auto-generated method stub
-               ProductActivity.this.productNames.getFilter().filter(arg0);
+               //ProductActivity.this.productNames.getFilter().filter(arg0); /* USED WITH NORMAL ADAPTER */
+        	   myAdapter.getFilter().filter(arg0.toString().toLowerCase());
            }
        });
 	}
