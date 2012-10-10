@@ -1,8 +1,11 @@
 package com.mobilefood.classes;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Product {
+public class Product implements Parcelable{
 	
 	@SerializedName("ean")
 	private String ean;
@@ -16,6 +19,7 @@ public class Product {
 	@SerializedName("kontrolleur")
 	private String kontrolleur;
 	
+	private boolean isFavorite;
 	
 	/**
 	 * @return the ean
@@ -71,5 +75,36 @@ public class Product {
 	 */
 	public void setKontrolleur(String kontrolleur) {
 		this.kontrolleur = kontrolleur;
+	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public String toString()
+	{
+		return name;
+	}
+
+	/**
+	 * @return the isSelected
+	 */
+	public boolean isFavorite() {
+		return isFavorite;
+	}
+
+	/**
+	 * @param isSelected the isSelected to set
+	 */
+	public void setFavorite(boolean isFavorite) {
+		this.isFavorite = isFavorite;
 	}
 }

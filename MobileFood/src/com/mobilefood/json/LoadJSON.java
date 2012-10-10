@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import com.mobilefood.activity.R;
 import com.mobilefood.classes.Products;
 import com.mobilefood.classes.ProductsHelper;
 import com.mobilefood.classes.old.TwitterTrend;
@@ -34,7 +36,9 @@ import com.mobilefood.classes.old.TwitterTrends;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
 
 public class LoadJSON extends AsyncTask<Context, Integer, String> {
@@ -43,15 +47,17 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	ProgressDialog dialog ;
     private Context cont;
     
+    
 	/* Constants */
     private String jsonURL;
 	private String FILENAME = "products.json";
+	public static final String PREFS_NAME = "DateOfFile";
 
-    /* JSON and Java Objects */
-    private JSONObject jsonObj;
-    private List<Products> productsList;
-	private List<TwitterTrends> messageList;
 	
+    /* JSON and Java Objects */
+    private List<Products> productsList;
+	private String dateOfFile;
+    
     /* Public Constructor */
     public LoadJSON(Activity act, String url)
     {
@@ -59,6 +65,7 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		setContext(act);
 		dialog = new ProgressDialog(getContext());
     }
+    
     
     /* Getters and Setters */
 	private void setContext(Activity act) {
@@ -88,13 +95,28 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		this.productsList = productsList;
 	}
 
+	/**
+	 * @return the dateOfFile
+	 */
+	public String getDateOfFile() {
+		return dateOfFile;
+	}
+
+
+	/**
+	 * @param dateOfFile the dateOfFile to set
+	 */
+	public void setDateOfFile(String dateOfFile) {
+		this.dateOfFile = dateOfFile;
+	}
+
+
 	/*
 	 * Start JSON download
 	 * @see android.os.AsyncTask#doInBackground(Params[])
 	 */
 	@Override
 	protected String doInBackground(Context... params) {
-		// Check if file has Changed
 		System.out.println("Start JSON Loader");
 		publishProgress(0);
 		
@@ -105,26 +127,11 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 			System.out.println(productsList.get(0).getProducts().get(0).getEan());
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		publishProgress(100);
 		return "JSON Object ready";
-		
-		// TODO USE THIS FOR LATER!!
-		
-//		if ( Changed(jsonURL) ) 
-//		{
-//			System.out.println("File has changed");
-//			//Load the newest JSON file
-//			setJsonObj(getJSONObjectFromURL(jsonURL));
-//			return "JSON Object ready..";
-//		} 
-//		else
-//		{
-//			System.out.println("File not changed");
-//			return "JSON Object not changed";
-//		}
+
 	}
 
 
@@ -150,9 +157,22 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	{	
 		System.out.println("Json Stream reading..");
 		Gson gson = new Gson();
-		JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(
-				getJSONDataFromURL("http://www.uitiwg.ch/products.json"), "UTF-8")));
-			// TODO getJSONDataFromFile or getJSONDataFromSharedPreferences!
+//		JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getJSONDataFromURL("http://www.uitiwg.ch/products.json"), "UTF-8")));
+		if(hasChanged(jsonURL) || !fileExists())
+		{
+			System.out.println("File has changed");
+			BufferedReader r = new BufferedReader(new InputStreamReader(getJSONDataFromURL(this.getUrl()), "UTF-8"));
+			StringBuilder total = new StringBuilder();
+			String line;
+			while( (line = r.readLine()) != null) {
+				total.append(line);
+			}
+			r.close();
+			storeJSONLocal(total.toString());
+		}
+		
+		JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getJSONDataFromFile(), "UTF-8")));
+		
         List<Products> products = new ArrayList<Products>();
         reader.beginArray();
         while (reader.hasNext()) {
@@ -165,12 +185,20 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
         return products;
     }	
 	
-	private static boolean Changed(String url){
+	private boolean hasChanged(String url){
+		boolean hasChanged;
+		long date;
+		String dateStr;
 	    try {
 	      HttpURLConnection.setFollowRedirects(false);
 	      HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
 	      con.setRequestMethod("HEAD");
-	      return (con.getResponseCode() == HttpURLConnection.HTTP_NOT_MODIFIED);
+	      hasChanged = (con.getResponseCode() == HttpURLConnection.HTTP_NOT_MODIFIED);
+	      date = con.getLastModified();
+	      dateStr = new Date(date).toGMTString();
+	      storeDateInSharedPref(dateStr);
+	      System.out.println("File has changed: " + dateStr);
+	      return hasChanged;
 	    }
 	    catch (Exception e) {
 	       e.printStackTrace();
@@ -178,56 +206,74 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	    }
 	}
 	
-	private void storeJSONLocal(String jsonFile)
+	private boolean fileExists()
 	{
-		System.out.println("Store JSON locally");
-		String FILENAME = "products.json";
-	
-		FileOutputStream fos = null;
-		try {
-			fos = this.cont.openFileOutput(FILENAME, Context.MODE_PRIVATE);
-			fos.close();
-			fos.write(jsonFile.getBytes());
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		File file = getContext().getFileStreamPath(this.FILENAME);
+		System.out.println("File exists: " + file.exists());
+		return file.exists();
 	}
 	
-	private String getJSONLocal()
+	private void storeJSONLocal(String file)
 	{
-		System.out.println("Get JSON locally");
-		String jsonFile = null;
-		File file = this.cont.getFileStreamPath(FILENAME);
-		FileInputStream fis;
-		
-		if (file.exists())
-		{
-			try {
-				fis = this.cont.openFileInput(FILENAME);
-				fis.read(jsonFile.getBytes());
-				System.out.println("Reading File..." + String.valueOf(jsonFile));
-				fis.close();
+		System.out.println("Store JSON locally");
 
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		FileOutputStream fos;
+		try {
+			fos = cont.openFileOutput(this.FILENAME, Context.MODE_PRIVATE);
+			fos.write(file.getBytes());
+			fos.close();
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
+	}
+	
+	private void storeDateInSharedPref(String date)
+	{	    
+	    SharedPreferences settings2 = cont.getSharedPreferences(PREFS_NAME, 0);
+	    SharedPreferences.Editor editor = settings2.edit();
+	    editor.putString("silentMode", date);
+	    System.out.println("setSharedPref #DATE: " + date);
+	    // Commit the edits!
+	    editor.commit();
+	    
+	}
+	
+	private String getDateFromSharedPref()
+	{
+	    String date;
+	    // Restore preferences
+	    SharedPreferences settings = cont.getSharedPreferences(PREFS_NAME, 0);
+	    date = settings.getString("silentMode", "");
+	    System.out.println("getSharedPref #DATE: " + date);
+	    setDateOfFile(date);
 		
-		return jsonFile;
+		return date;
+	}
+
+	
+	private InputStream getJSONDataFromFile()
+	{
+		System.out.println("Reading JSON from File..");
+//		InputStream is = cont.getResources().openRawResource(R.raw.products);
+//		InputStream is = cont.getAssets().open("products.json");
+		FileInputStream fis = null;
+		try {
+			fis = this.cont.openFileInput(this.FILENAME);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		System.out.println("InputStream: " + fis);
+//		return is;
+		return fis;
 	}
     
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		ProductsHelper.setProductsList(getProductsList());
+		ProductsHelper.setProductList(getProductsList().get(0).getProducts());
 	}
 	
 	protected void onProgressUpdate(Integer... value) {

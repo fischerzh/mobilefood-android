@@ -9,15 +9,16 @@
         android:id="@+id/product_search_box"
 	 	android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-		android:hint="Search"                               
+		android:hint="Search"                        
       />
      
     <ListView
         android:id="@+id/product_list_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
-        android:divider="#858585"
-    	android:dividerHeight="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        
     	/>
 
 </LinearLayout>

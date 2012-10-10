@@ -6,10 +6,12 @@
     android:padding="6dp">
  
     <CheckBox
-        android:id="@+id/btn_star"
+        android:id="@+id/product_chk_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:focusable="false" 
+    	android:clickable="true"
         android:button="@android:drawable/btn_star" />
  
     <TextView
@@ -18,17 +20,20 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:ellipsize="end"
+        android:ellipsize="marquee"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
         android:singleLine="true"
+		android:focusableInTouchMode="true"
+		android:clickable="true"
+		android:focusable="true"
         android:textAppearance="?android:attr/textAppearanceLarge" />
  
-    <Button
-        android:id="@+id/btn_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:text="@string/products_more_details" />
+<!--     <Button -->
+<!--         android:id="@+id/product_btn_info" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_gravity="center_vertical" -->
+<!--         android:text="@string/products_more_details" /> -->
  
 </LinearLayout>

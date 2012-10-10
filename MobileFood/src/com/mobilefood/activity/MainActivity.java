@@ -4,6 +4,7 @@ import com.mobilefood.activity.R;
 import com.mobilefood.barcode.*;
 import com.mobilefood.classes.Product;
 import com.mobilefood.classes.ProductsHelper;
+import com.mobilefood.classes.override.BarcodeAlertDialog;
 import com.mobilefood.json.LoadJSON;
 
 import android.os.Bundle;
@@ -21,6 +22,8 @@ public class MainActivity extends Activity {
 	private TextView textView;
 	private Button scanButton, productsButton;
 	private String jsonUrl = "http://www.uitiwg.ch/products.json";
+	public static final String PREFS_NAME = "DateOfFile";
+	
 	private Activity act;
 	private ProductActivity prodAct;
 	private Context applicationContext;
@@ -79,18 +82,24 @@ public class MainActivity extends Activity {
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 // Handle successful scan
                 Toast.makeText(MainActivity.this.applicationContext,"Product scanned: " + contents, Toast.LENGTH_LONG).show();		
-                
-                for (Product prod : ProductsHelper.getProductsList().get(0).getProducts())
+
+                for (Product prod : ProductsHelper.getProductList())
                 {
                 	if (prod.getEan().compareTo(contents) == 0 || prod.getEan().contains(contents)) 
                 	{
-                        Toast.makeText(MainActivity.this.applicationContext,"Product scanned: " + prod.getName() + " von " + prod.getProducer(), Toast.LENGTH_SHORT).show();		
-                        Toast.makeText(MainActivity.this.applicationContext,"PRODUCT IS KOSHER!", Toast.LENGTH_LONG).show();	
+                		BarcodeAlertDialog alertDialog= new BarcodeAlertDialog(act, "Produkt gefunden", R.style.style_product_found);
+                		alertDialog.show();
+//                        Toast.makeText(MainActivity.this.applicationContext,"Product scanned: " + prod.getName() + " von " + prod.getProducer(), Toast.LENGTH_SHORT).show();		
+//                        Toast.makeText(MainActivity.this.applicationContext,"PRODUCT IS KOSHER!", Toast.LENGTH_LONG).show();	
                         productFound = true;
                 	}
                 }
                 if (!productFound)
-                    Toast.makeText(MainActivity.this.applicationContext,"NO PRODUCT FOUND: NOT KOSHER!", Toast.LENGTH_LONG).show();	
+                {
+            		BarcodeAlertDialog alertDialog= new BarcodeAlertDialog(act, "Produkt nicht gefunden", R.style.style_product_not_found);
+            		alertDialog.show();
+//                    Toast.makeText(MainActivity.this.applicationContext,"NO PRODUCT FOUND: NOT KOSHER!", Toast.LENGTH_LONG).show();	
+                }
 
 //            } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel
