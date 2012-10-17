@@ -5,19 +5,17 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    
-     <EditText 
-        android:id="@+id/product_search_box"
+    <EditText
+        android:id="@+id/EditText01"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Search"    
-      />
-     
-    <ListView
-        android:id="@+id/product_list_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-    	/>
+        android:hint="Search" >
+    </EditText>
 
-    
+    <ListView
+        android:id="@+id/ListView01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
 </LinearLayout>

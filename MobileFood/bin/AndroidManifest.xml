@@ -26,7 +26,15 @@
             </intent-filter>
         </activity>
          <activity 
-            android:name=".ProductActivity"
+            android:name=".ProductListMain"
+            android:label="@string/app_name">
+        </activity>
+        <activity 
+            android:name=".FavoritesActivity"
+            android:label="@string/app_name">
+        </activity>
+        <activity 
+            android:name="ProductActivity"
             android:label="@string/app_name">
         </activity>
         <activity

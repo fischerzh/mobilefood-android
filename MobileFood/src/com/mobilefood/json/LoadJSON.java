@@ -158,8 +158,8 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		System.out.println("Json Stream reading..");
 		Gson gson = new Gson();
 //		JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getJSONDataFromURL("http://www.uitiwg.ch/products.json"), "UTF-8")));
-		if(hasChanged(jsonURL) || !fileExists())
-		{
+//		if(hasChanged(jsonURL) || !fileExists())
+//		{
 			System.out.println("File has changed");
 			BufferedReader r = new BufferedReader(new InputStreamReader(getJSONDataFromURL(this.getUrl()), "UTF-8"));
 			StringBuilder total = new StringBuilder();
@@ -169,7 +169,7 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 			}
 			r.close();
 			storeJSONLocal(total.toString());
-		}
+//		}
 		
 		JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getJSONDataFromFile(), "UTF-8")));
 		

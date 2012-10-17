@@ -20,7 +20,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	
 	private TextView textView;
-	private Button scanButton, productsButton;
+	private Button scanButton, productsButton, favButton;
 	private String jsonUrl = "http://www.uitiwg.ch/products.json";
 	public static final String PREFS_NAME = "DateOfFile";
 	
@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
         //Set Buttons
         scanButton = (Button) findViewById(R.id.scanButton);
         productsButton = (Button) findViewById(R.id.button_products);
-        
+        favButton = (Button) findViewById(R.id.button_favorites);
         //Start AsyncTask for JSON
         startJSONSync();
         
@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
         //Procucts
         productsButton.setOnClickListener(new Button.OnClickListener() {
         	public void onClick(View v) {
-        		System.out.println("Product clicked");
+        		System.out.println("Products clicked");
             	//ProductsHelper.setProductsList(jsonLoader.getProductsList());
         		startProductAcitivty();
         	}
@@ -65,7 +65,17 @@ public class MainActivity extends Activity {
 
         	}
     	});
-                
+        
+        //Favorites
+        favButton.setOnClickListener(new Button.OnClickListener() {
+        	public void onClick(View v) {
+        		System.out.println("Favorites clicked");
+        		
+        		startFavoritesActivity();
+
+        	}
+    	});
+        
     }
     
 	/*
@@ -133,5 +143,12 @@ public class MainActivity extends Activity {
     public void startProductAcitivty()
     {
     	ProductActivity.callMe(this);
+//    	ProductListMain.callMe(this);
+    }
+    
+    public void startFavoritesActivity()
+    {
+    	FavoritesActivity.callMe(this);
+//    	ProductListMain.callMe(this);
     }
 }

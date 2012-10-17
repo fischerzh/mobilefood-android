@@ -36,7 +36,7 @@
             android:padding="25dip"
             android:drawableTop="@drawable/button1" />
 
-        <Button android:id="@+id/button2"
+        <Button android:id="@+id/button_producer"
             android:layout_width="120dip"
             android:layout_height="120dip"
             android:layout_toRightOf="@id/button_products"
@@ -44,7 +44,7 @@
             android:padding="25dip"
             android:drawableTop="@drawable/button2" />
 
-        <Button android:id="@+id/button3"
+        <Button android:id="@+id/button_category"
             android:layout_width="120dip"
             android:layout_height="120dip"
             android:layout_below="@id/button_products"
@@ -52,11 +52,11 @@
             android:padding="25dip"
             android:drawableTop="@drawable/button3" />
 
-        <Button android:id="@+id/button4"
+        <Button android:id="@+id/button_favorites"
             android:layout_width="120dip"
             android:layout_height="120dip"
-            android:layout_toRightOf="@id/button3"
-            android:layout_below="@id/button2"
+            android:layout_toRightOf="@id/button_category"
+            android:layout_below="@id/button_producer"
             android:text="@string/button4"
             android:padding="25dip"
             android:drawableTop="@drawable/button4" />

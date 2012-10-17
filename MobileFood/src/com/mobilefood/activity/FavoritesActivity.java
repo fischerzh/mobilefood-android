@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class ProductActivity extends Activity{
+public class FavoritesActivity extends Activity{
 	
 	private ListView listView;
 //	private ProductListAdapter adapter;
@@ -31,7 +31,7 @@ public class ProductActivity extends Activity{
 		
 	public static void callMe(Context context)
 	{
-		Intent intent = new Intent(context, ProductActivity.class);
+		Intent intent = new Intent(context, FavoritesActivity.class);
 		context.startActivity(intent);
 //		ProductActivity.ctx = context;
 	}
@@ -47,22 +47,12 @@ public class ProductActivity extends Activity{
         editTxt = (EditText) findViewById(R.id.product_search_box);
         
 //        adapter = new ProductListAdapter(this, ProductsHelper.getProductList());
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, ProductsHelper.getProductListString());
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, ProductsHelper.getProductWatchListString());
         listView.setAdapter(adapter);
         
         listView.setTextFilterEnabled(true);
         listView.setClickable(true);
         listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
-				// TODO Auto-generated method stub
-				System.out.println("Item clicked loooooong");
-				return false;
-			}
-		});
-        
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
@@ -113,7 +103,7 @@ public class ProductActivity extends Activity{
            public void afterTextChanged( Editable arg0)
            {
                // TODO Auto-generated method stub
-        	   ProductActivity.this.adapter.getFilter().filter(arg0);
+        	   FavoritesActivity.this.adapter.getFilter().filter(arg0);
            }
        });
         

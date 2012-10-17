@@ -1,6 +1,7 @@
 package com.mobilefood.classes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProductsHelper {
@@ -8,6 +9,9 @@ public class ProductsHelper {
 	private static List<Product> productList;
 	private static List<Product> filteredList;
 	private static List<Product> productWatchList;
+	private static ArrayList<String> productListString;
+	private static String[]	productName, productEAN;
+	private static HashMap<String, String> productNameToEan;
 	
 	private static Product currentItem;
 	
@@ -25,6 +29,18 @@ public class ProductsHelper {
 		ProductsHelper.productList = productList;
 	}
 
+	public static ArrayList<String> getProductListString()
+	{
+		productListString = new ArrayList<String>();
+		productNameToEan = new HashMap<String, String>();
+        for (Product prod : getProductList())
+        {
+        	productListString.add(prod.getName());
+        	productNameToEan.put(prod.getName(), prod.getEan());
+        }
+        return productListString;
+	}
+	
 	/**
 	 * @return the productWatchList
 	 */
@@ -54,12 +70,23 @@ public class ProductsHelper {
 	
 	public static void removeProductFromWatchList(Product prod)
 	{
+		System.out.println("Remove product from watch list: " + prod.getName());
 		ProductsHelper.productWatchList.remove(prod);
 	}
 
 	public static void initProductWatchList()
 	{
 		ProductsHelper.productWatchList = new ArrayList<Product>();
+	}
+	
+	public static ArrayList<String> getProductWatchListString()
+	{
+		productListString = new ArrayList<String>();
+        for (Product prod : getProductWatchList())
+        {
+        	productListString.add(prod.getName());
+        }
+        return productListString;
 	}
 
 	/**
@@ -88,5 +115,47 @@ public class ProductsHelper {
 	 */
 	public static void setCurrentItem(Product currentItem) {
 		ProductsHelper.currentItem = currentItem;
+	}
+	
+	public static Product findItemName(String name)
+	{
+		Product prodFound = null;
+		for (Product prod : getProductList())
+		{
+			if (prod.getName().contentEquals(name))
+			{
+				prodFound = prod;
+				break;
+			}
+		}
+		return prodFound;
+	}
+	
+	public static Product findItemEan(String ean)
+	{
+		Product prodFound = null;
+		for (Product prod : getProductList())
+		{
+			if (prod.getEan().contentEquals(ean))
+			{
+				prodFound = prod;
+				break;
+			}
+		}
+		return prodFound;
+	}
+	
+	/**
+	 * @return the productNameToEan
+	 */
+	public static HashMap<String, String> getProductNameToEan() {
+		return productNameToEan;
+	}
+
+	/**
+	 * @param productNameToEan the productNameToEan to set
+	 */
+	public static void setProductNameToEan(HashMap<String, String> productNameToEan) {
+		ProductsHelper.productNameToEan = productNameToEan;
 	}
 }
