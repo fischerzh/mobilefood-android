@@ -158,9 +158,9 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		System.out.println("Json Stream reading..");
 		Gson gson = new Gson();
 //		JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getJSONDataFromURL("http://www.uitiwg.ch/products.json"), "UTF-8")));
-//		if(hasChanged(jsonURL) || !fileExists())
-//		{
-			System.out.println("File has changed");
+		if(hasChanged(jsonURL) || !fileExists())
+		{
+			System.out.println("has file changed? " + hasChanged(jsonURL));
 			BufferedReader r = new BufferedReader(new InputStreamReader(getJSONDataFromURL(this.getUrl()), "UTF-8"));
 			StringBuilder total = new StringBuilder();
 			String line;
@@ -169,7 +169,7 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 			}
 			r.close();
 			storeJSONLocal(total.toString());
-//		}
+		}
 		
 		JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getJSONDataFromFile(), "UTF-8")));
 		
@@ -188,16 +188,26 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	private boolean hasChanged(String url){
 		boolean hasChanged;
 		long date;
-		String dateStr;
+		String dateFromSharedPrefStr, dateFromWebStr;
 	    try {
 	      HttpURLConnection.setFollowRedirects(false);
 	      HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
 	      con.setRequestMethod("HEAD");
-	      hasChanged = (con.getResponseCode() == HttpURLConnection.HTTP_NOT_MODIFIED);
+//	      hasChanged = (con.getResponseCode() == HttpURLConnection.HTTP_NOT_MODIFIED);
 	      date = con.getLastModified();
-	      dateStr = new Date(date).toGMTString();
-	      storeDateInSharedPref(dateStr);
-	      System.out.println("File has changed: " + dateStr);
+	      dateFromWebStr = new Date(date).toGMTString();
+	      dateFromSharedPrefStr = new Date(getDateFromSharedPref()).toGMTString();
+	      if (dateFromSharedPrefStr.contentEquals(dateFromWebStr))
+	      {
+	    	  System.out.println("EQUAL DATE: NO CHANGE");
+	    	  hasChanged = false;
+	      }
+	      else
+	      {
+	    	  System.out.println("NOT EQUAL DATE: FILE CHANGE");
+		      storeDateInSharedPref(dateFromWebStr);
+		      hasChanged = true;
+	      }
 	      return hasChanged;
 	    }
 	    catch (Exception e) {

@@ -63,10 +63,8 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
 			view = inflator.inflate(R.layout.products_item, null);
 			viewHolder = new ViewHolder();
 			viewHolder.tv = (TextView) view.findViewById(R.id.product_content);
-//			viewHolder.btn = (Button) view.findViewById(R.id.product_btn_info);
 			viewHolder.chkbx = (CheckBox) view.findViewById(R.id.product_chk_box);
 			
-//			viewHolder.btn.setTag(position);
 			view.setTag(viewHolder);
 			
 		}
@@ -84,7 +82,6 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
 
     static class ViewHolder {
         TextView tv;
-//        Button btn;
         CheckBox chkbx;
     }
 }

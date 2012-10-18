@@ -1,5 +1,7 @@
 package com.mobilefood.activity;
 
+import java.util.ArrayList;
+
 import com.mobilefood.activity.R;
 import com.mobilefood.classes.Product;
 import com.mobilefood.classes.ProductsHelper;
@@ -47,7 +49,14 @@ public class FavoritesActivity extends Activity{
         editTxt = (EditText) findViewById(R.id.product_search_box);
         
 //        adapter = new ProductListAdapter(this, ProductsHelper.getProductList());
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, ProductsHelper.getProductWatchListString());
+        ArrayList<String> favoritesList = new ArrayList<String>();
+        for (Product prod: ProductsHelper.getProductList())
+        {
+        	if(prod.isFavorite())
+        		favoritesList.add(prod.getName());
+        }
+        
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, favoritesList);
         listView.setAdapter(adapter);
         
         listView.setTextFilterEnabled(true);

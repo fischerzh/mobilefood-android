@@ -1,10 +1,11 @@
 package com.mobilefood.activity;
 
+import java.util.ArrayList;
+
 import com.mobilefood.activity.R;
 import com.mobilefood.classes.Product;
 import com.mobilefood.classes.ProductsHelper;
-import com.mobilefood.classes.override.CustomAdapter;
-import com.mobilefood.classes.override.ProductListAdapter;
+import com.mobilefood.classes.override.ProductBaseAdapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,18 +15,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class ProductActivity extends Activity{
 	
 	private ListView listView;
-//	private ProductListAdapter adapter;
-	private ArrayAdapter adapter;
+	private ProductBaseAdapter adapter;
+//	private ArrayAdapter adapter;
 	private EditText editTxt;
 //	private static Context ctx;
 		
@@ -47,48 +44,25 @@ public class ProductActivity extends Activity{
         editTxt = (EditText) findViewById(R.id.product_search_box);
         
 //        adapter = new ProductListAdapter(this, ProductsHelper.getProductList());
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, ProductsHelper.getProductListString());
+//        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, ProductsHelper.getProductListString());
+        adapter = new ProductBaseAdapter(this, (ArrayList<Product>) ProductsHelper.getProductList());
         listView.setAdapter(adapter);
         
         listView.setTextFilterEnabled(true);
         listView.setClickable(true);
-        listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
-				// TODO Auto-generated method stub
-				System.out.println("Item clicked loooooong");
-				return false;
-			}
-		});
+//        listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
         
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-				Product currentProd;
-				String prodEan = null;
+				Product currentItem;
 				
 				System.out.println("Position clicked: " + position + " " + listView.getItemAtPosition(position));
 				
-			    CheckedTextView check = (CheckedTextView)view;
-			    listView.setItemChecked(position, !check.isChecked());
-			    
-			    prodEan = ProductsHelper.getProductNameToEan().get(listView.getItemAtPosition(position));
-			    currentProd = ProductsHelper.findItemEan(prodEan);
-			    
-			    if (!check.isChecked())
-			    {
-				    ProductsHelper.addProductToWatchList(currentProd);
-			    }
-			    else
-			    {
-			    	ProductsHelper.removeProductFromWatchList(currentProd);
-			    }
-			    System.out.println(prodEan);
-			    
-			    ProductsHelper.setCurrentItem(ProductsHelper.findItemEan(prodEan));
+			    currentItem = (Product)listView.getItemAtPosition(position);
+
+			    ProductsHelper.setCurrentItem(currentItem);
 				ProductInfoActivity.callMe(adapter.getContext());
 			}
 		});
@@ -113,7 +87,7 @@ public class ProductActivity extends Activity{
            public void afterTextChanged( Editable arg0)
            {
                // TODO Auto-generated method stub
-        	   ProductActivity.this.adapter.getFilter().filter(arg0);
+//        	   ProductActivity.this.adapter.getFilter().filter(arg0);
            }
        });
         

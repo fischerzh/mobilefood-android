@@ -137,7 +137,7 @@ public class CopyOfProductActivity extends Activity{
            {
                // TODO Auto-generated method stub
                //ProductActivity.this.productNames.getFilter().filter(arg0); /* USED WITH NORMAL ADAPTER */
-        	   myAdapter.getFilter().filter(arg0.toString().toLowerCase());
+//        	   myAdapter.getFilter().filter(arg0.toString().toLowerCase());
                //arrad.getFilter().filter(arg0.toString().toLowerCase());
            }
        });
