@@ -87,7 +87,8 @@ public class ProductActivity extends Activity{
            public void afterTextChanged( Editable arg0)
            {
                // TODO Auto-generated method stub
-//        	   ProductActivity.this.adapter.getFilter().filter(arg0);
+        	   System.out.println("Call filter: " + arg0);
+        	   ProductActivity.this.adapter.getFilter().filter(arg0);
            }
        });
         
