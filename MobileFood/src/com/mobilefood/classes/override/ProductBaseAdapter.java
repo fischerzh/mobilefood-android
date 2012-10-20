@@ -13,12 +13,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ProductBaseAdapter extends BaseAdapter implements Filterable{
 	
@@ -67,7 +64,8 @@ public class ProductBaseAdapter extends BaseAdapter implements Filterable{
 		//Initialize convertView
 		if(convertView==null)
 		{
-			convertView = mInflater.inflate(R.layout.product_item2, null);
+
+			convertView = mInflater.inflate(R.layout.product_item, null);
 			holder = new ViewHolder();
 			holder.setTxtName((TextView)convertView.findViewById(R.id.prod_item_name));
 			holder.setTxtProducer((TextView)convertView.findViewById(R.id.prod_item_producer));
@@ -115,7 +113,7 @@ public class ProductBaseAdapter extends BaseAdapter implements Filterable{
 		holder.getTxtEan().setText(resultList.get(position).getEan());
 		holder.getChkBox().setChecked(resultList.get(position).isFavorite());
 		
-		ProductsHelper.setProductList(resultList);
+//		ProductsHelper.setProductList(resultList);
 			
 		return convertView;
 	
@@ -146,12 +144,10 @@ public class ProductBaseAdapter extends BaseAdapter implements Filterable{
                 	originalValues = new ArrayList<Product>(resultList); // saves the original data in mOriginalValues
                 }
 
-                /********
-                 * 
-                 *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
-                 *  else does the Filtering and returns FilteredArrList(Filtered)  
-                 *
-                 ********/
+                /* 
+                 * If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
+                 * else does the Filtering and returns FilteredArrList(Filtered)  
+                 */
                 if (constraint == null || constraint.length() == 0) {
 
                     // set the Original result to return  

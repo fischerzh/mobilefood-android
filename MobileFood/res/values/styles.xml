@@ -6,7 +6,12 @@
 		<item name="android:background">#FF0000</item> 
  	</style>
 
-		<style name="style_product_found" parent="@android:style/Theme.Dialog">
+	<style name="style_product_found" parent="@android:style/Theme.Dialog">
 		<item name="android:background">#32F04F</item> 
  	</style>
+
+	<style name="style_disclaimer" parent="@android:style/Theme.Dialog">
+		<item name="android:background">#3c3c3c</item> 
+ 	</style>
+	
 </resources>

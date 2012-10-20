@@ -1,9 +1,12 @@
 package com.mobilefood.activity;
 
+import java.util.HashMap;
+
 import com.mobilefood.activity.R;
 import com.mobilefood.barcode.*;
 import com.mobilefood.classes.Product;
 import com.mobilefood.classes.ProductsHelper;
+import com.mobilefood.classes.SharedPrefEditor;
 import com.mobilefood.classes.override.BarcodeAlertDialog;
 import com.mobilefood.json.LoadJSON;
 
@@ -21,13 +24,26 @@ public class MainActivity extends Activity {
 	
 	private TextView textView;
 	private Button scanButton, productsButton, favButton;
-	private String jsonUrl = "http://www.uitiwg.ch/products.json";
+	private String jsonUrl;
 	public static final String PREFS_NAME = "DateOfFile";
 	
+	private HashMap<String, String> selectionToUrl;
+
 	private Activity act;
 	private ProductActivity prodAct;
 	private Context applicationContext;
-	LoadJSON jsonLoader;
+    private SharedPrefEditor editor;
+	private LoadJSON jsonLoader;
+    
+	private static boolean refreshHome = true;
+	
+	
+	public static void callMe(Context context, boolean refresh)
+	{
+		refreshHome = refresh;
+		Intent intent = new Intent(context, MainActivity.class);
+		context.startActivity(intent);
+	}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,21 +52,25 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
         this.act = MainActivity.this;
-        this.textView = (TextView) findViewById(R.id.TextView01);
+//        this.textView = (TextView) findViewById(R.id.TextView01);
+        
+        
         this.applicationContext = getApplicationContext();
         //Set Buttons
         scanButton = (Button) findViewById(R.id.scanButton);
         productsButton = (Button) findViewById(R.id.button_products);
         favButton = (Button) findViewById(R.id.button_favorites);
-        //Start AsyncTask for JSON
-        startJSONSync();
+        
+        
+        //Start AsyncTask for JSON only if app was started
+        if(refreshHome)
+        	startJSONSync();
         
         
         //Procucts
         productsButton.setOnClickListener(new Button.OnClickListener() {
         	public void onClick(View v) {
         		System.out.println("Products clicked");
-            	//ProductsHelper.setProductsList(jsonLoader.getProductsList());
         		startProductAcitivty();
         	}
         });
@@ -72,7 +92,6 @@ public class MainActivity extends Activity {
         		System.out.println("Favorites clicked");
         		
         		startFavoritesActivity();
-
         	}
     	});
         
@@ -84,8 +103,8 @@ public class MainActivity extends Activity {
      */
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     	//Toast.makeText(MainActivity.this.applicationContext,"Product scanned: " + intent.getStringExtra("SCAN_RESULT"), Toast.LENGTH_LONG).show();	
-//        if (requestCode == 0) {
-//            if (resultCode == RESULT_OK) {
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
     		boolean productFound = false;
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 System.out.println("Scan Result: "  + contents);
@@ -97,24 +116,27 @@ public class MainActivity extends Activity {
                 {
                 	if (prod.getEan().compareTo(contents) == 0 || prod.getEan().contains(contents)) 
                 	{
-                		BarcodeAlertDialog alertDialog= new BarcodeAlertDialog(act, "Produkt gefunden", R.style.style_product_found);
-                		alertDialog.show();
-//                        Toast.makeText(MainActivity.this.applicationContext,"Product scanned: " + prod.getName() + " von " + prod.getProducer(), Toast.LENGTH_SHORT).show();		
-//                        Toast.makeText(MainActivity.this.applicationContext,"PRODUCT IS KOSHER!", Toast.LENGTH_LONG).show();	
                         productFound = true;
                 	}
                 }
-                if (!productFound)
+                if (productFound)
+                {
+            		BarcodeAlertDialog alertDialog= new BarcodeAlertDialog(act, "Produkt gefunden", R.style.style_product_found);
+            		alertDialog.show();
+//                  Toast.makeText(MainActivity.this.applicationContext,"PRODUCT IS KOSHER!", Toast.LENGTH_LONG).show();	
+                }
+                else
                 {
             		BarcodeAlertDialog alertDialog= new BarcodeAlertDialog(act, "Produkt nicht gefunden", R.style.style_product_not_found);
             		alertDialog.show();
 //                    Toast.makeText(MainActivity.this.applicationContext,"NO PRODUCT FOUND: NOT KOSHER!", Toast.LENGTH_LONG).show();	
                 }
 
-//            } else if (resultCode == RESULT_CANCELED) {
+            } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel
-//            }
-//        }
+            	System.out.println("Scan cancelled");
+            }
+        }
     }
 
     @Override
@@ -127,28 +149,56 @@ public class MainActivity extends Activity {
         return true;
     }
     
-   
     /*
      * Start JSON Synchronization
      */
     public void startJSONSync()
     {
+        editor = new SharedPrefEditor(this);
+        System.out.println("Selection: " + editor.getSelectionFromSharedPref());
+    	// Get SharedPref HashMap for Link from Selection
+    	System.out.println(editor.getSelectionToUrlMap().get(editor.getSelectionFromSharedPref()));
     	// Start Sync
+    	setJsonUrl(editor.getSelectionToUrlMap().get(editor.getSelectionFromSharedPref()));
     	System.out.println("Start JSON Sync");
-    	jsonLoader = new LoadJSON(this.act, jsonUrl);
+    	jsonLoader = new LoadJSON(this.act, getJsonUrl());
     	jsonLoader.execute();
     	
     }
     
     public void startProductAcitivty()
     {
-    	ProductActivity.callMe(this);
-//    	ProductListMain.callMe(this);
+//    	ProductActivity.callMe(this);
+		Intent intent = new Intent(MainActivity.this, ProductActivity.class);
+		startActivity(intent);
     }
     
     public void startFavoritesActivity()
     {
-    	FavoritesActivity.callMe(this);
-//    	ProductListMain.callMe(this);
+//    	FavoritesActivity.callMe(this);
+		Intent intent = new Intent(MainActivity.this, FavoritesActivity.class);
+		startActivity(intent);
     }
+    
+    @Override
+    public void onBackPressed() {
+    	System.out.println("Back pressed");
+    	return;
+    }
+    
+	
+	/**
+	 * @return the jsonUrl
+	 */
+	public String getJsonUrl() {
+		return jsonUrl;
+	}
+
+	/**
+	 * @param jsonUrl the jsonUrl to set
+	 */
+	public void setJsonUrl(String jsonUrl) {
+		this.jsonUrl = jsonUrl;
+	}
+
 }

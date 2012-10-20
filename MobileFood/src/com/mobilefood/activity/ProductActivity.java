@@ -24,14 +24,13 @@ public class ProductActivity extends Activity{
 	private ProductBaseAdapter adapter;
 //	private ArrayAdapter adapter;
 	private EditText editTxt;
-//	private static Context ctx;
+    private ArrayList<Product> originalProducts;
 		
-	public static void callMe(Context context)
-	{
-		Intent intent = new Intent(context, ProductActivity.class);
-		context.startActivity(intent);
-//		ProductActivity.ctx = context;
-	}
+//	public static void callMe(Context context)
+//	{
+//		Intent intent = new Intent(context, ProductActivity.class);
+//		context.startActivity(intent);
+//	}
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +39,11 @@ public class ProductActivity extends Activity{
 //        setContentView(R.layout.products_list_main);
         
         listView = (ListView) findViewById(R.id.product_list_view);
-        
         editTxt = (EditText) findViewById(R.id.product_search_box);
         
 //        adapter = new ProductListAdapter(this, ProductsHelper.getProductList());
 //        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, ProductsHelper.getProductListString());
+        
         adapter = new ProductBaseAdapter(this, (ArrayList<Product>) ProductsHelper.getProductList());
         listView.setAdapter(adapter);
         
@@ -56,6 +55,7 @@ public class ProductActivity extends Activity{
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+//				editTxt.setText("");
 				Product currentItem;
 				
 				System.out.println("Position clicked: " + position + " " + listView.getItemAtPosition(position));
@@ -63,15 +63,16 @@ public class ProductActivity extends Activity{
 			    currentItem = (Product)listView.getItemAtPosition(position);
 
 			    ProductsHelper.setCurrentItem(currentItem);
-				ProductInfoActivity.callMe(adapter.getContext());
+//				ProductInfoActivity.callMe(adapter.getContext());
+				Intent intent = new Intent(ProductActivity.this, ProductInfoActivity.class);
+				startActivityForResult(intent, 1);
 			}
 		});
         
-        
-        
         editTxt.addTextChangedListener(new TextWatcher()
         {
-           @Override
+
+		@Override
            public void onTextChanged( CharSequence arg0, int arg1, int arg2, int arg3)
            {
                // TODO Auto-generated method stub
@@ -90,9 +91,23 @@ public class ProductActivity extends Activity{
         	   System.out.println("Call filter: " + arg0);
         	   ProductActivity.this.adapter.getFilter().filter(arg0);
            }
+           
        });
         
         
 	}
+	
+    public void onHomeClick(View view)
+    {
+    	System.out.println("Home clicked");
+    	MainActivity.callMe(view.getContext(), false);
+    }
+    
+    @Override
+    public void onBackPressed() {
+    	System.out.println("Back pressed");
+    	return;
+    }
+
 
 }

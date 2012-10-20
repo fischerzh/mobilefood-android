@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import com.mobilefood.activity.R;
 import com.mobilefood.classes.Product;
 import com.mobilefood.classes.ProductsHelper;
-import com.mobilefood.classes.override.CustomAdapter;
-import com.mobilefood.classes.override.ProductListAdapter;
+import com.mobilefood.classes.override.ProductBaseAdapter;
+import com.mobilefood.classes.override.old.CustomAdapter;
+import com.mobilefood.classes.override.old.ProductListAdapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,22 +27,23 @@ import android.widget.Toast;
 public class FavoritesActivity extends Activity{
 	
 	private ListView listView;
-//	private ProductListAdapter adapter;
-	private ArrayAdapter adapter;
+	private ProductBaseAdapter adapter;
+//	private ArrayAdapter adapter;
 	private EditText editTxt;
 //	private static Context ctx;
 		
-	public static void callMe(Context context)
-	{
-		Intent intent = new Intent(context, FavoritesActivity.class);
-		context.startActivity(intent);
-//		ProductActivity.ctx = context;
-	}
+//	public static void callMe(Context context)
+//	{
+//		Intent intent = new Intent(context, FavoritesActivity.class);
+//		context.startActivity(intent);
+//	}
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.products_main);
+        Intent intent = getIntent();
+        
+        setContentView(R.layout.favorites_main);
 //        setContentView(R.layout.products_list_main);
         
         listView = (ListView) findViewById(R.id.product_list_view);
@@ -49,46 +51,34 @@ public class FavoritesActivity extends Activity{
         editTxt = (EditText) findViewById(R.id.product_search_box);
         
 //        adapter = new ProductListAdapter(this, ProductsHelper.getProductList());
-        ArrayList<String> favoritesList = new ArrayList<String>();
+        ArrayList<Product> favoritesList = new ArrayList<Product>();
         for (Product prod: ProductsHelper.getProductList())
         {
         	if(prod.isFavorite())
-        		favoritesList.add(prod.getName());
+        		favoritesList.add(prod);
         }
         
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, favoritesList);
+//        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, favoritesList);
+        adapter = new ProductBaseAdapter(this, favoritesList);
         listView.setAdapter(adapter);
         
         listView.setTextFilterEnabled(true);
         listView.setClickable(true);
-        listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
+//        listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-				Product currentProd;
-				String prodEan = null;
-				
+//				editTxt.setText("");
+//				ProductsHelper.setProductList(originalProducts);
+				Product currentItem;
+			    currentItem = (Product)listView.getItemAtPosition(position);
 				System.out.println("Position clicked: " + position + " " + listView.getItemAtPosition(position));
-				
-			    CheckedTextView check = (CheckedTextView)view;
-			    listView.setItemChecked(position, !check.isChecked());
-			    
-			    prodEan = ProductsHelper.getProductNameToEan().get(listView.getItemAtPosition(position));
-			    currentProd = ProductsHelper.findItemEan(prodEan);
-			    
-			    if (!check.isChecked())
-			    {
-				    ProductsHelper.addProductToWatchList(currentProd);
-			    }
-			    else
-			    {
-			    	ProductsHelper.removeProductFromWatchList(currentProd);
-			    }
-			    System.out.println(prodEan);
-			    
-			    ProductsHelper.setCurrentItem(ProductsHelper.findItemEan(prodEan));
-				ProductInfoActivity.callMe(adapter.getContext());
+
+			    ProductsHelper.setCurrentItem(currentItem);
+//				ProductInfoActivity.callMe(adapter.getContext());
+				Intent intent = new Intent(FavoritesActivity.this, ProductInfoActivity.class);
+				startActivityForResult(intent, 2);
 			}
 		});
         
@@ -118,5 +108,18 @@ public class FavoritesActivity extends Activity{
         
         
 	}
+	
+    public void onHomeClick(View view)
+    {
+    	System.out.println("Home clicked");
+    	MainActivity.callMe(view.getContext(), false);
+    }
+    
+    @Override
+    public void onBackPressed() {
+    	System.out.println("Back pressed");
+    	return;
+    }
+
 
 }

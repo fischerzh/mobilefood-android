@@ -1,74 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp" >
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp" >
 
+        <include
+            android:id="@+id/header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            layout="@layout/action_bar_back" />
 
-    <TextView
-        android:id="@+id/prod_info_titel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="96dp"
-        android:textStyle="bold"
-        android:text="TextView" />
-    
-    <ImageView
-    android:src="@android:drawable/divider_horizontal_dark"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:scaleType="fitXY"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:paddingBottom="2dp"
-    android:paddingTop="2dp" 
-    android:layout_below="@id/prod_info_titel" />
-        
-    <TextView
-        android:id="@+id/prod_info_subtitel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="48dp"
-        android:layout_below="@id/prod_info_titel"
-        android:text="TextView" />
+        <TextView
+            android:id="@+id/prod_info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header"
+            android:layout_marginTop="97dp"
+            android:text="TextView" />
 
-    <ImageView
-    android:src="@android:drawable/divider_horizontal_dark"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:scaleType="fitXY"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:paddingBottom="2dp"
-    android:paddingTop="2dp" 
-    android:layout_below="@id/prod_info_titel" />
-            
-     <TextView
-        android:id="@+id/prod_info_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="48dp"
-        android:layout_below="@id/prod_info_subtitel"
-        android:text="TextView" />
-     
-         <ImageView
-    android:src="@android:drawable/divider_horizontal_dark"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:scaleType="fitXY"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:paddingBottom="2dp"
-    android:paddingTop="2dp" 
-    android:layout_below="@id/prod_info_titel" />
-         
-          <Button
-              android:layout_width="96dp"
-              android:layout_height="wrap_content"
-              android:layout_alignLeft="@+id/prod_info_text"
-              android:layout_alignParentRight="true"
-              android:layout_below="@id/prod_info_text"
-              android:text="Done" />
+        <TextView
+            android:id="@+id/prod_info_subtitel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/prod_info_text"
+            android:layout_alignLeft="@+id/prod_info_text"
+            android:layout_marginBottom="37dp"
+            android:text="TextView" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/prod_info_titel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/prod_info_subtitel"
+            android:layout_alignLeft="@+id/header"
+            android:layout_marginBottom="20dp"
+            android:text="TextView"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/prod_info_titel"
+            android:layout_alignLeft="@+id/prod_info_titel"
+            android:paddingBottom="2dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="2dp"
+            android:scaleType="fitXY"
+            android:src="@android:drawable/divider_horizontal_dark" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/prod_info_subtitel"
+            android:layout_alignLeft="@+id/prod_info_subtitel"
+            android:paddingBottom="2dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="2dp"
+            android:scaleType="fitXY"
+            android:src="@android:drawable/divider_horizontal_dark" />
+
+    </RelativeLayout>

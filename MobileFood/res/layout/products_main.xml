@@ -3,7 +3,15 @@
     android:id="@+id/LinearLayout01"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+     >
+    
+    <include android:id="@+id/header"
+         layout="@layout/action_bar_home"
+         android:layout_height="wrap_content"
+         android:layout_width="fill_parent"/>
 
     
      <EditText 

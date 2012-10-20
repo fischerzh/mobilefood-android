@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+     >
+    
+        
+    <include android:id="@+id/header"
+         layout="@layout/action_bar_home"
+         android:layout_height="wrap_content"
+         android:layout_width="fill_parent"/>
+
+    
+     <EditText 
+        android:id="@+id/product_search_box"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search"    
+      />
+     
+    <ListView
+        android:id="@+id/product_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+    	/>
+
+    
+</LinearLayout>

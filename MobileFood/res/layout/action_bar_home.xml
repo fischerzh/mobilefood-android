@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/header_layout"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+
+  <!-- 1px border top -->
+<!--   <ImageView -->
+<!--     android:layout_width="fill_parent" -->
+<!--     android:layout_height="1dp" -->
+<!--     android:background="#000000" /> -->
+
+  <!-- header with text and buttons -->
+
+  <RelativeLayout
+      android:layout_width="fill_parent"
+      android:layout_height="43dp" >
+
+    <!-- left side -->
+    <LinearLayout
+      android:id="@+id/header_home_button_layout"
+      android:layout_width="wrap_content"
+      android:layout_height="fill_parent"
+      android:orientation="horizontal"
+      android:layout_alignParentLeft="true">
+
+      <!-- home button -->
+
+        <ImageButton
+            android:id="@+id/ImageButton01"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="onHomeClick"
+            android:src="@drawable/nav_back_home" />
+
+    </LinearLayout>
+
+    <!-- header text -->
+    <TextView
+      android:id="@+id/header_title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:text="@string/app_name"
+      android:textSize="20dp"
+      android:textStyle="bold"/>
+
+  </RelativeLayout>
+
+  <!-- 1px border bottom -->
+  <ImageView
+    android:layout_width="fill_parent"
+    android:layout_height="1dp"
+    android:background="#8a8a8a" />
+
+</LinearLayout>
