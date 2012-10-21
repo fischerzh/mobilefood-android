@@ -21,8 +21,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import com.mobilefood.classes.Product;
 import com.mobilefood.classes.Products;
 import com.mobilefood.classes.ProductsHelper;
+import com.mobilefood.classes.util.SharedPrefEditor;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -45,6 +47,7 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	
     /* JSON and Java Objects */
     private List<Products> productsList;
+    private ArrayList<Product> productList;
 	private String dateOfFile;
     
     /* Public Constructor */
@@ -85,6 +88,14 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	}
 
 	/**
+	 * @return the productList
+	 */
+	public ArrayList<Product> getProductList() {
+		return (ArrayList<Product>)getProductsList().get(0).getProducts();
+	}
+
+
+	/**
 	 * @return the dateOfFile
 	 */
 	public String getDateOfFile() {
@@ -119,6 +130,29 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 			e.printStackTrace();
 		}
 		publishProgress(100);
+		
+		/** Get Favorites from SharedPref if available **/
+		SharedPrefEditor editor = new SharedPrefEditor(getContext());
+		ArrayList<Product> prodListFromPrefs = new ArrayList<Product>();
+		prodListFromPrefs = editor.getProductList();
+		if (prodListFromPrefs != null)
+		{
+			System.out.println("Prod List from Pref in LoadJSON: " + prodListFromPrefs.toString());
+			System.out.println("Size: " + prodListFromPrefs.size());
+			for(int i = 0; i < getProductList().size(); i++)
+			{
+				for(int j = 0; j < prodListFromPrefs.size(); j++)
+				{
+//					if(getProductList().get(i).getName().contains(prodListFromPrefs.get(j).getName()))
+
+					if(getProductList().get(i).getId() == prodListFromPrefs.get(j).getId())
+					{
+						System.out.println("Favorite found: " + getProductList().get(i).getName());
+						getProductList().get(i).setFavorite(true);
+					}
+				}
+			}
+		}
 		return "JSON Object ready";
 
 	}
@@ -149,7 +183,7 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 //		JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getJSONDataFromURL("http://www.uitiwg.ch/products.json"), "UTF-8")));
 		if(hasChanged(jsonURL) || !fileExists())
 		{
-			System.out.println("has file changed? " + hasChanged(jsonURL));
+//			System.out.println("has file changed? " + hasChanged(jsonURL));
 			BufferedReader r = new BufferedReader(new InputStreamReader(getJSONDataFromURL(this.getUrl()), "UTF-8"));
 			StringBuilder total = new StringBuilder();
 			String line;
@@ -179,12 +213,21 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		long date;
 		String dateFromSharedPrefStr, dateFromWebStr;
 	    try {
+	      String dateFromPref;
 	      HttpURLConnection.setFollowRedirects(false);
 	      HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
 	      con.setRequestMethod("HEAD");
 //	      hasChanged = (con.getResponseCode() == HttpURLConnection.HTTP_NOT_MODIFIED);
 	      date = con.getLastModified();
 	      dateFromWebStr = new Date(date).toGMTString();
+	      dateFromPref = getDateFromSharedPref();
+	      if (dateFromPref == null || dateFromPref.contentEquals(""))
+	      {
+	    	  // No date yet stored, first time getting file
+	    	  System.out.println("NO DATE STORED: WRITE TO PREF");
+	    	  storeDateInSharedPref(dateFromWebStr);
+	    	  return true;
+	      }
 	      dateFromSharedPrefStr = new Date(getDateFromSharedPref()).toGMTString();
 	      if (dateFromSharedPrefStr.contentEquals(dateFromWebStr))
 	      {
@@ -234,7 +277,7 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	{	    
 	    SharedPreferences settings2 = cont.getSharedPreferences(PREFS_NAME, 0);
 	    SharedPreferences.Editor editor = settings2.edit();
-	    editor.putString("silentMode", date);
+	    editor.putString(PREFS_NAME, date);
 	    System.out.println("setSharedPref #DATE: " + date);
 	    // Commit the edits!
 	    editor.commit();
@@ -246,7 +289,7 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	    String date;
 	    // Restore preferences
 	    SharedPreferences settings = cont.getSharedPreferences(PREFS_NAME, 0);
-	    date = settings.getString("silentMode", "");
+	    date = settings.getString(PREFS_NAME, "");
 	    System.out.println("getSharedPref #DATE: " + date);
 	    setDateOfFile(date);
 		

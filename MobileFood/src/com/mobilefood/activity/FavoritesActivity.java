@@ -8,6 +8,7 @@ import com.mobilefood.classes.ProductsHelper;
 import com.mobilefood.classes.override.ProductBaseAdapter;
 import com.mobilefood.classes.override.old.CustomAdapter;
 import com.mobilefood.classes.override.old.ProductListAdapter;
+import com.mobilefood.classes.util.SharedPrefEditor;
 
 import android.app.Activity;
 import android.content.Context;
@@ -32,25 +33,17 @@ public class FavoritesActivity extends Activity{
 	private EditText editTxt;
 //	private static Context ctx;
 		
-//	public static void callMe(Context context)
-//	{
-//		Intent intent = new Intent(context, FavoritesActivity.class);
-//		context.startActivity(intent);
-//	}
-	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Intent intent = getIntent();
         
         setContentView(R.layout.favorites_main);
 //        setContentView(R.layout.products_list_main);
         
         listView = (ListView) findViewById(R.id.product_list_view);
-        
         editTxt = (EditText) findViewById(R.id.product_search_box);
         
 //        adapter = new ProductListAdapter(this, ProductsHelper.getProductList());
+        
         ArrayList<Product> favoritesList = new ArrayList<Product>();
         for (Product prod: ProductsHelper.getProductList())
         {
@@ -113,6 +106,9 @@ public class FavoritesActivity extends Activity{
     {
     	System.out.println("Home clicked");
     	MainActivity.callMe(view.getContext(), false);
+    	/** USE THE INTENT CALLER ONLY IF YOU ADD THE PARAMETER TO NOT RELOAD!!! **/
+//    	Intent intent = new Intent(view.getContext(), MainActivity.class);
+//    	startActivity(intent);
     }
     
     @Override
@@ -120,6 +116,7 @@ public class FavoritesActivity extends Activity{
     	System.out.println("Back pressed");
     	return;
     }
+    
 
 
 }

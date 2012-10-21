@@ -6,8 +6,8 @@ import com.mobilefood.activity.R;
 import com.mobilefood.barcode.*;
 import com.mobilefood.classes.Product;
 import com.mobilefood.classes.ProductsHelper;
-import com.mobilefood.classes.SharedPrefEditor;
 import com.mobilefood.classes.override.BarcodeAlertDialog;
+import com.mobilefood.classes.util.SharedPrefEditor;
 import com.mobilefood.json.LoadJSON;
 
 import android.os.Bundle;
@@ -103,9 +103,9 @@ public class MainActivity extends Activity {
      */
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     	//Toast.makeText(MainActivity.this.applicationContext,"Product scanned: " + intent.getStringExtra("SCAN_RESULT"), Toast.LENGTH_LONG).show();	
-        if (requestCode == 0) {
+//        if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
-    		boolean productFound = false;
+            	boolean productFound = false;
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 System.out.println("Scan Result: "  + contents);
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
@@ -136,7 +136,7 @@ public class MainActivity extends Activity {
                 // Handle cancel
             	System.out.println("Scan cancelled");
             }
-        }
+//        }
     }
 
     @Override
@@ -155,11 +155,10 @@ public class MainActivity extends Activity {
     public void startJSONSync()
     {
         editor = new SharedPrefEditor(this);
-        System.out.println("Selection: " + editor.getSelectionFromSharedPref());
     	// Get SharedPref HashMap for Link from Selection
-    	System.out.println(editor.getSelectionToUrlMap().get(editor.getSelectionFromSharedPref()));
+    	System.out.println(editor.getSelectionToUrlMap().get(editor.getSelection()));
     	// Start Sync
-    	setJsonUrl(editor.getSelectionToUrlMap().get(editor.getSelectionFromSharedPref()));
+    	setJsonUrl(editor.getSelectionToUrlMap().get(editor.getSelection()));
     	System.out.println("Start JSON Sync");
     	jsonLoader = new LoadJSON(this.act, getJsonUrl());
     	jsonLoader.execute();
@@ -186,7 +185,6 @@ public class MainActivity extends Activity {
     	return;
     }
     
-	
 	/**
 	 * @return the jsonUrl
 	 */

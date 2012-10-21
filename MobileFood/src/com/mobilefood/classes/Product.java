@@ -1,11 +1,18 @@
 package com.mobilefood.classes;
 
+import java.io.Serializable;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Product implements Parcelable{
+public class Product implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
+	@SerializedName("id")
+	private int id;
 	
 	@SerializedName("ean")
 	private String ean;
@@ -20,7 +27,25 @@ public class Product implements Parcelable{
 	private String kontrolleur;
 	
 	private boolean isFavorite;
-	
+
+	public long getUID()
+	{
+		return serialVersionUID;
+	}
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	/**
 	 * @return the ean
 	 */
@@ -77,17 +102,6 @@ public class Product implements Parcelable{
 		this.kontrolleur = kontrolleur;
 	}
 
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public String toString()
 	{

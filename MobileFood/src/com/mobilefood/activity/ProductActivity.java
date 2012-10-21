@@ -6,6 +6,7 @@ import com.mobilefood.activity.R;
 import com.mobilefood.classes.Product;
 import com.mobilefood.classes.ProductsHelper;
 import com.mobilefood.classes.override.ProductBaseAdapter;
+import com.mobilefood.classes.util.SharedPrefEditor;
 
 import android.app.Activity;
 import android.content.Context;
@@ -43,7 +44,7 @@ public class ProductActivity extends Activity{
         
 //        adapter = new ProductListAdapter(this, ProductsHelper.getProductList());
 //        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, ProductsHelper.getProductListString());
-        
+
         adapter = new ProductBaseAdapter(this, (ArrayList<Product>) ProductsHelper.getProductList());
         listView.setAdapter(adapter);
         

@@ -2,6 +2,7 @@ package com.mobilefood.classes.override;
 
 import com.mobilefood.classes.Product;
 import com.mobilefood.classes.ProductsHelper;
+import com.mobilefood.classes.util.SharedPrefEditor;
 import com.mobilefood.activity.R;
 import android.content.Context;
 import java.util.ArrayList;
@@ -84,15 +85,17 @@ public class ProductBaseAdapter extends BaseAdapter implements Filterable{
 					if(isChecked)
 					{
 //						Toast.makeText(getCont(), "You selected" + resultList.get(getPosition).getName(), Toast.LENGTH_SHORT).show();
-						resultList.get(getPosition).setFavorite(true);
+//						resultList.get(getPosition).setFavorite(true);
 					    ProductsHelper.addProductToWatchList(resultList.get(getPosition));
 					}
 					else					
 					{
 //						Toast.makeText(getCont(), "Not selected" + resultList.get(getPosition).getName(), Toast.LENGTH_SHORT).show();
-						resultList.get(getPosition).setFavorite(false);
+//						resultList.get(getPosition).setFavorite(false);
 					    ProductsHelper.removeProductFromWatchList(resultList.get(getPosition));
 					}
+					/*** SAVE FAVORITES LIST TO SHARED PREF ***/
+					saveFavorites();
 					
 				}
 			});
@@ -172,6 +175,11 @@ public class ProductBaseAdapter extends BaseAdapter implements Filterable{
         return filter;
 	}
 	
+    public void saveFavorites()
+    {
+    	SharedPrefEditor editor = new SharedPrefEditor(cont);
+    	editor.saveCurrentFavList();    	
+    }
 
 	/**
 	 * @return the cont

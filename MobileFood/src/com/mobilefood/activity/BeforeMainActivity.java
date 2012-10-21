@@ -1,8 +1,8 @@
 package com.mobilefood.activity;
 
 import com.mobilefood.barcode.IntentIntegrator;
-import com.mobilefood.classes.SharedPrefEditor;
 import com.mobilefood.classes.override.BarcodeAlertDialog;
+import com.mobilefood.classes.util.SharedPrefEditor;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -29,7 +29,7 @@ public class BeforeMainActivity extends Activity
         super.onCreate(savedInstanceState);
         
         editor = new SharedPrefEditor(this);
-        if(editor.getSelectionFromSharedPref() == null || editor.getSelectionFromSharedPref().equals(""))
+        if(editor.getSelection() == null || editor.getSelection().equals(""))
         {
         	loadSelectionList();
         }
@@ -57,7 +57,7 @@ public class BeforeMainActivity extends Activity
 			public void onItemClick(AdapterView<?> adapter, View view, int pos, long id) {
 				// TODO Auto-generated method stub
 				System.out.println("Selected: " + adapter.getItemAtPosition(pos).toString());
-		        editor.setSelectionInSharedPref(adapter.getItemAtPosition(pos).toString());
+		        editor.setSelection(adapter.getItemAtPosition(pos).toString());
 				startMainActivity();
 			}
         });
