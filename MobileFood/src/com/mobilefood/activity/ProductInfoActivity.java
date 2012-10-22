@@ -26,7 +26,8 @@ public class ProductInfoActivity extends Activity
         super.onCreate(savedInstanceState);
 	
         setContentView(R.layout.products_info_main);
-        
+        setTitle("");
+
         currentProd = ProductsHelper.getCurrentItem();
         
         System.out.println("Got Product: " + currentProd.getName());

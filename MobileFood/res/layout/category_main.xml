@@ -14,13 +14,13 @@
         layout="@layout/action_bar_home" />
 
     <EditText
-        android:id="@+id/product_search_box"
+        android:id="@+id/category_search_box"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="Search" />
 
     <ListView
-        android:id="@+id/product_list_view"
+        android:id="@+id/category_list_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 

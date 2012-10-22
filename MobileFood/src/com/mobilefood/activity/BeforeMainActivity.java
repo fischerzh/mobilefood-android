@@ -27,7 +27,8 @@ public class BeforeMainActivity extends Activity
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        setTitle("");
+
         editor = new SharedPrefEditor(this);
         if(editor.getSelection() == null || editor.getSelection().equals(""))
         {
@@ -44,8 +45,9 @@ public class BeforeMainActivity extends Activity
 	{
         setContentView(R.layout.activity_before_main);
         
-        this.textView = (TextView) findViewById(R.id.before_main_text);
         listView = (ListView) findViewById(R.id.before_main_listView);
+        
+        textView = (TextView) findViewById(R.id.before_main_text);
         button = (Button) findViewById(R.id.before_main_button);
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, editor.getSelectionList());

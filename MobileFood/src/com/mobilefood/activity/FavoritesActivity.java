@@ -37,7 +37,7 @@ public class FavoritesActivity extends Activity{
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.favorites_main);
-//        setContentView(R.layout.products_list_main);
+        setTitle("");
         
         listView = (ListView) findViewById(R.id.product_list_view);
         editTxt = (EditText) findViewById(R.id.product_search_box);

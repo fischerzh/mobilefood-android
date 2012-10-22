@@ -25,13 +25,19 @@ public class Product implements Serializable{
 	
 	@SerializedName("kontrolleur")
 	private String kontrolleur;
+
+	@SerializedName("category")
+	private String category;
+	
 	
 	private boolean isFavorite;
 
-	public long getUID()
+	
+	public String toString()
 	{
-		return serialVersionUID;
+		return name;
 	}
+
 	/**
 	 * @return the id
 	 */
@@ -103,10 +109,19 @@ public class Product implements Serializable{
 	}
 
 	
-	public String toString()
-	{
-		return name;
+	/**
+	 * @return the category
+	 */
+	public String getCategory() {
+		return category;
 	}
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 
 	/**
 	 * @return the isSelected
@@ -121,4 +136,6 @@ public class Product implements Serializable{
 	public void setFavorite(boolean isFavorite) {
 		this.isFavorite = isFavorite;
 	}
+	
+	
 }

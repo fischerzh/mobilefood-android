@@ -16,66 +16,51 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class ProductActivity extends Activity{
+public class CategoryActivity extends Activity{
 	
 	private ListView listView;
-	private ProductBaseAdapter adapter;
-//	private ArrayAdapter adapter;
+	private ArrayAdapter adapter;
 	private EditText editTxt;
     private ArrayList<Product> originalProducts;
-		
+    private String[] defaultCategoryList = {"Milch", "Brot"};
+	
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.products_main);
+        setContentView(R.layout.category_main);
         setTitle("");
 
-        listView = (ListView) findViewById(R.id.product_list_view);
-        editTxt = (EditText) findViewById(R.id.product_search_box);
+        listView = (ListView) findViewById(R.id.category_list_view);
+        editTxt = (EditText) findViewById(R.id.category_search_box);
         
-//        adapter = new ProductListAdapter(this, ProductsHelper.getProductList());
-//        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, ProductsHelper.getProductListString());
-        if(!ProductsHelper.getCurrentProducer().contentEquals(""))
-		{
-        	ArrayList<Product> prodFilteredProducer = new ArrayList<Product>();
-        	for(Product prod: ProductsHelper.getProductList())
-        	{
-        		if(prod.getProducer() == ProductsHelper.getCurrentProducer())
-        		{
-        			prodFilteredProducer.add(prod);
-        		}
-        	}
-            adapter = new ProductBaseAdapter(this, prodFilteredProducer);
-            ProductsHelper.setCurrentProducer("");
-		}
-        else
-        {
-            adapter = new ProductBaseAdapter(this, (ArrayList<Product>) ProductsHelper.getProductList());
-        }
+//        if(ProductsHelper.getCategoryList() != null || !ProductsHelper.getCategoryList().isEmpty())
+//        	adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ProductsHelper.getCategoryList());
+//        else
+        	adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, defaultCategoryList);
+
         listView.setAdapter(adapter);
         
         listView.setTextFilterEnabled(true);
         listView.setClickable(true);
-//        listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
         
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-//				editTxt.setText("");
-				Product currentItem;
+				String currentCategory;
 				
 				System.out.println("Position clicked: " + position + " " + listView.getItemAtPosition(position));
 				
-			    currentItem = (Product)listView.getItemAtPosition(position);
+				currentCategory = (String) listView.getItemAtPosition(position);
 
-			    ProductsHelper.setCurrentItem(currentItem);
+			    ProductsHelper.setCurrentCategory(currentCategory);
 //				ProductInfoActivity.callMe(adapter.getContext());
-				Intent intent = new Intent(ProductActivity.this, ProductInfoActivity.class);
+				Intent intent = new Intent(CategoryActivity.this, ProductActivity.class);
 				startActivityForResult(intent, 1);
 			}
 		});
@@ -99,8 +84,7 @@ public class ProductActivity extends Activity{
            public void afterTextChanged( Editable arg0)
            {
                // TODO Auto-generated method stub
-        	   System.out.println("Call filter: " + arg0);
-        	   ProductActivity.this.adapter.getFilter().filter(arg0);
+        	   CategoryActivity.this.adapter.getFilter().filter(arg0);
            }
            
        });

@@ -23,7 +23,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	
 	private TextView textView;
-	private Button scanButton, productsButton, favButton;
+	private Button scanButton, productsButton, favButton, producerButton, categoryButton;
 	private String jsonUrl;
 	public static final String PREFS_NAME = "DateOfFile";
 	
@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_main);
-        
+        setTitle("");
         this.act = MainActivity.this;
 //        this.textView = (TextView) findViewById(R.id.TextView01);
         
@@ -60,7 +60,8 @@ public class MainActivity extends Activity {
         scanButton = (Button) findViewById(R.id.scanButton);
         productsButton = (Button) findViewById(R.id.button_products);
         favButton = (Button) findViewById(R.id.button_favorites);
-        
+        producerButton = (Button) findViewById(R.id.button_producer);
+        categoryButton = (Button) findViewById(R.id.button_category);
         
         //Start AsyncTask for JSON only if app was started
         if(refreshHome)
@@ -95,8 +96,25 @@ public class MainActivity extends Activity {
         	}
     	});
         
+        //Producers
+        producerButton.setOnClickListener(new Button.OnClickListener() {
+        	public void onClick(View v) {
+        		System.out.println("Producers clicked");
+        		
+        		startProducersActivity();
+        	}
+    	});
+        
+        //Category
+        categoryButton.setOnClickListener(new Button.OnClickListener() {
+        	public void onClick(View v) {
+        		System.out.println("Category clicked");
+        		
+        		startCategoryActivity();
+        	}
+    	});
     }
-    
+
 	/*
      * Handle Scanner Result
      * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
@@ -178,6 +196,19 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(MainActivity.this, FavoritesActivity.class);
 		startActivity(intent);
     }
+    
+    
+	protected void startProducersActivity() {
+		// TODO Auto-generated method stub
+		Intent intent = new Intent(MainActivity.this, ProducerActivity.class);
+		startActivity(intent);
+	}
+	
+	protected void startCategoryActivity() {
+		// TODO Auto-generated method stub
+		Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
+		startActivity(intent);
+	}
     
     @Override
     public void onBackPressed() {

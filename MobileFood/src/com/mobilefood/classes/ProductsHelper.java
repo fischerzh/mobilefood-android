@@ -14,6 +14,8 @@ public class ProductsHelper {
 	private static HashMap<String, String> productNameToEan;
 	
 	private static Product currentItem;
+	private static String currentProducer = "";
+	private static String currentCategory = "";
 	
 	/**
 	 * @return the productsList
@@ -158,4 +160,46 @@ public class ProductsHelper {
 	public static void setProductNameToEan(HashMap<String, String> productNameToEan) {
 		ProductsHelper.productNameToEan = productNameToEan;
 	}
+
+	public static void setCurrentProducer(String currentProducer) {
+		// TODO Auto-generated method stub
+		ProductsHelper.currentProducer = currentProducer;
+	}
+	
+	public static String getCurrentProducer()
+	{
+		return ProductsHelper.currentProducer;
+	}
+
+	public static List<String> getProducerList() {
+		// TODO Auto-generated method stub
+		List<String> producerList = new ArrayList<String>();
+		for(Product prod: getProductList())
+		{
+			if(!producerList.contains(prod.getProducer()))
+				producerList.add(prod.getProducer());
+		}
+		return producerList;
+	}
+	
+	public static void setCurrentCategory(String currentCategory) {
+		// TODO Auto-generated method stub
+		ProductsHelper.currentCategory = currentCategory;
+	}
+	
+	public static String getCurrentCategory() {
+		// TODO Auto-generated method stub
+		return ProductsHelper.currentCategory;
+	}
+
+	public static List<String> getCategoryList() {
+		// TODO Auto-generated method stub
+		List<String> categoryList = new ArrayList<String>();
+		for(Product prod: getProductList())
+		{
+			if(!categoryList.contains(prod.getCategory()))
+				categoryList.add(prod.getCategory());
+		}
+		return categoryList;	}
+
 }

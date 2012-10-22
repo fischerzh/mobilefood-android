@@ -3,29 +3,25 @@
     android:id="@+id/LinearLayout01"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
-     >
-    
-    <include android:id="@+id/header"
-         layout="@layout/action_bar_home"
-         android:layout_height="wrap_content"
-         android:layout_width="fill_parent"/>
+    android:orientation="vertical" >
 
-    
-     <EditText 
+    <include
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/action_bar_home" />
+
+    <EditText
         android:id="@+id/product_search_box"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Search"    
-      />
-     
+        android:hint="Search" />
+
     <ListView
         android:id="@+id/product_list_view"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-    	/>
+        android:layout_height="wrap_content" />
 
-    
 </LinearLayout>
