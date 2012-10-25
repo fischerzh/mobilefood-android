@@ -39,6 +39,7 @@ public class ProductActivity extends Activity{
         
 //        adapter = new ProductListAdapter(this, ProductsHelper.getProductList());
 //        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, ProductsHelper.getProductListString());
+        /** INSTEAD OF LIST FROM ProductsHelper GET THE INTENT DETAILS PROVIDED !!! **/
         if(!ProductsHelper.getCurrentProducer().contentEquals(""))
 		{
         	ArrayList<Product> prodFilteredProducer = new ArrayList<Product>();
@@ -52,6 +53,19 @@ public class ProductActivity extends Activity{
             adapter = new ProductBaseAdapter(this, prodFilteredProducer);
             ProductsHelper.setCurrentProducer("");
 		}
+        else if (!ProductsHelper.getCurrentCategory().contentEquals(""))
+        {
+        	ArrayList<Product> prodFilteredProducer = new ArrayList<Product>();
+        	for(Product prod: ProductsHelper.getProductList())
+        	{
+        		if(prod.getCategory() == ProductsHelper.getCurrentCategory())
+        		{
+        			prodFilteredProducer.add(prod);
+        		}
+        	}
+            adapter = new ProductBaseAdapter(this, prodFilteredProducer);
+            ProductsHelper.setCurrentCategory("");
+        }
         else
         {
             adapter = new ProductBaseAdapter(this, (ArrayList<Product>) ProductsHelper.getProductList());

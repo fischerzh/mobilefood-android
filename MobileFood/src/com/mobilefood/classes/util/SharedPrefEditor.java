@@ -35,7 +35,7 @@ public class SharedPrefEditor {
 		"http://www.uitiwg.ch/products.json", 
 		"http://www.uitiwg.ch/products_bigdata.json",
 		"http://www.uitiwg.ch/products_bigdata.json", 
-		"http://www.uitiwg.ch/products_bigdata.json", 
+		"http://www.uitiwg.ch/products_contents.json", 
 		"http://www.uitiwg.ch/products_id.json"};
 	
 	private HashMap<String, String> selectionToUrlMap;
@@ -116,7 +116,7 @@ public class SharedPrefEditor {
 	public void saveCurrentFavList()
 	{
 		setProductList((ArrayList<Product>)ProductsHelper.getProductWatchList());
-		System.out.println("Current Watch-List saved to SharedPref!");
+		System.out.println("Current Watch-List saved to SharedPref: " + ProductsHelper.getProductWatchList().toString());
 	}
 
 	/**

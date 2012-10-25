@@ -1,6 +1,7 @@
 package com.mobilefood.classes;
 
 import java.io.Serializable;
+import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -29,6 +30,8 @@ public class Product implements Serializable{
 	@SerializedName("category")
 	private String category;
 	
+	@SerializedName("contents")
+	private String contents;
 	
 	private boolean isFavorite;
 
@@ -122,6 +125,20 @@ public class Product implements Serializable{
 		this.category = category;
 	}
 
+
+	/**
+	 * @return the contents
+	 */
+	public String getContents() {
+		return contents;
+	}
+
+	/**
+	 * @param contents the contents to set
+	 */
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
 
 	/**
 	 * @return the isSelected

@@ -48,7 +48,8 @@ public final class R {
         public static final int imageView1=0x7f070013;
         public static final int lay_main=0x7f07000d;
         public static final int lay_wrapper=0x7f07000c;
-        public static final int menu_settings=0x7f070025;
+        public static final int menu_settings=0x7f070026;
+        public static final int prod_info_contents=0x7f070025;
         public static final int prod_info_subtitel=0x7f070023;
         public static final int prod_info_text=0x7f070022;
         public static final int prod_info_titel=0x7f070024;

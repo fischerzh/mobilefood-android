@@ -31,15 +31,19 @@ public class ProductInfoActivity extends Activity
         currentProd = ProductsHelper.getCurrentItem();
         
         System.out.println("Got Product: " + currentProd.getName());
+        System.out.println("Got Content: " + currentProd.getContents().toString());
 	
         TextView prod_titel = (TextView) findViewById(R.id.prod_info_titel);
         prod_titel.setText(ProductsHelper.getCurrentItem().getName() + " (EAN: " + currentProd.getEan() +" )");
         
         TextView prod_sub_titel = (TextView) findViewById(R.id.prod_info_subtitel);
-        prod_sub_titel.setText(currentProd.getProducer());
+        prod_sub_titel.setText("Hersteller:\t\t" +currentProd.getProducer());
         
         TextView prod_text = (TextView) findViewById(R.id.prod_info_text);
-        prod_text.setText(currentProd.getKontrolleur());
+        prod_text.setText("Kategorie:\t\t" + currentProd.getCategory());
+        
+        TextView prod_content = (TextView) findViewById(R.id.prod_info_contents);
+        prod_content.setText("Inhalte:\t\t\t" + currentProd.getContents().toString());
 	}
 	
 	

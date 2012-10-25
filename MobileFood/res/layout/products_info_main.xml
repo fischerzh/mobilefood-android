@@ -39,12 +39,35 @@
             android:layout_marginBottom="20dp"
             android:text="TextView"
             android:textStyle="bold" />
+        
+         <TextView
+            android:id="@+id/prod_info_contents"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/prod_info_text"
+            android:layout_below="@+id/prod_info_text"
+            android:layout_marginTop="25dp"
+            android:text="TextView" />
 
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/prod_info_titel"
-            android:layout_alignLeft="@+id/prod_info_titel"
+            android:layout_alignBottom="@+id/prod_info_subtitel"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="2dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="2dp"
+            android:scaleType="fitXY"
+            android:src="@android:drawable/divider_horizontal_dark" />
+
+
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/prod_info_contents"
+            android:layout_alignLeft="@+id/prod_info_text"
             android:paddingBottom="2dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -55,8 +78,8 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/prod_info_subtitel"
-            android:layout_alignLeft="@+id/prod_info_subtitel"
+            android:layout_alignBottom="@+id/prod_info_contents"
+            android:layout_alignParentRight="true"
             android:paddingBottom="2dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"

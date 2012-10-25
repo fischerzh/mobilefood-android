@@ -25,7 +25,6 @@ public class CategoryActivity extends Activity{
 	private ListView listView;
 	private ArrayAdapter adapter;
 	private EditText editTxt;
-    private ArrayList<Product> originalProducts;
     private String[] defaultCategoryList = {"Milch", "Brot"};
 	
 	
@@ -38,9 +37,9 @@ public class CategoryActivity extends Activity{
         listView = (ListView) findViewById(R.id.category_list_view);
         editTxt = (EditText) findViewById(R.id.category_search_box);
         
-//        if(ProductsHelper.getCategoryList() != null || !ProductsHelper.getCategoryList().isEmpty())
-//        	adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ProductsHelper.getCategoryList());
-//        else
+        if(ProductsHelper.getCategoryList() != null || !ProductsHelper.getCategoryList().isEmpty())
+        	adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ProductsHelper.getCategoryList());
+        else
         	adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, defaultCategoryList);
 
         listView.setAdapter(adapter);
@@ -59,7 +58,6 @@ public class CategoryActivity extends Activity{
 				currentCategory = (String) listView.getItemAtPosition(position);
 
 			    ProductsHelper.setCurrentCategory(currentCategory);
-//				ProductInfoActivity.callMe(adapter.getContext());
 				Intent intent = new Intent(CategoryActivity.this, ProductActivity.class);
 				startActivityForResult(intent, 1);
 			}
