@@ -51,31 +51,40 @@ public class ProductInfoActivity extends Activity
     public void onBackClick(View view)
     {
 //    	System.out.println("Back clicked: " + getCallingActivity().getShortClassName());
-    	Intent intent = null;
-    	if(getCallingActivity() == null || getCallingActivity().equals(null))
-    	{
-        	MainActivity.callMe(view.getContext(), false);
-    	}
-    	else if(getCallingActivity().getShortClassName().contains("ProductActivity") )
-    	{
-    		intent = new Intent(view.getContext(), ProductActivity.class);
-    		startActivity(intent);
-    	}
-    	else if(getCallingActivity().getShortClassName().contains("FavoritesActivity") )
-    	{
-    		intent = new Intent(view.getContext(), FavoritesActivity.class);
-    		startActivity(intent);
-    	}
-    	else
-    	{
-        	MainActivity.callMe(view.getContext(), false);
-    	}
+    	startCallingActivity();
     }
     
     @Override
     public void onBackPressed() {
 //    	editTxt.setText("");
     	System.out.println("Back pressed");
-    	return;
+    	startCallingActivity();
+    }
+    
+    public void startCallingActivity()
+    {
+    	Intent intent = null;
+    	if(getCallingActivity() == null || getCallingActivity().equals(null))
+    	{
+        	MainActivity.callMe(getApplicationContext(), false);
+    	}
+    	else if(getCallingActivity().getShortClassName().contains("ProductActivity") )
+    	{
+    		intent = new Intent(getApplicationContext(), ProductActivity.class);
+    		if(getIntent().hasExtra("Producer"))
+				intent.putExtra("Producer", ProductsHelper.getCurrentProducer());
+    		if(getIntent().hasExtra("Category"))
+				intent.putExtra("Category", ProductsHelper.getCurrentCategory());
+    		startActivityForResult(intent, 1);
+    	}
+    	else if(getCallingActivity().getShortClassName().contains("FavoritesActivity") )
+    	{
+    		intent = new Intent(getApplicationContext(), FavoritesActivity.class);
+    		startActivityForResult(intent, 2);
+    	}
+    	else
+    	{
+        	MainActivity.callMe(getApplicationContext(), false);
+    	}
     }
 }

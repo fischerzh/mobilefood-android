@@ -58,6 +58,7 @@ public class ProducerActivity extends Activity{
 			    ProductsHelper.setCurrentProducer(currentProducer);
 //				ProductInfoActivity.callMe(adapter.getContext());
 				Intent intent = new Intent(ProducerActivity.this, ProductActivity.class);
+				intent.putExtra("Producer", ProductsHelper.getCurrentProducer());
 				startActivityForResult(intent, 4);
 			}
 		});
@@ -91,15 +92,15 @@ public class ProducerActivity extends Activity{
 	
     public void onHomeClick(View view)
     {
-    	System.out.println("Home clicked");
-    	MainActivity.callMe(view.getContext(), false);
+    	onBackPressed();
     }
     
     @Override
     public void onBackPressed() {
     	System.out.println("Back pressed");
-    	return;
-    }
+    	ProductsHelper.setCurrentProducer("");
+    	MainActivity.callMe(ProducerActivity.this, false);
 
+    }
 
 }

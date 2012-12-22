@@ -63,6 +63,7 @@ public class CategoryActivity extends Activity{
 
 			    ProductsHelper.setCurrentCategory(currentCategory);
 				Intent intent = new Intent(CategoryActivity.this, ProductActivity.class);
+				intent.putExtra("Category", ProductsHelper.getCurrentCategory());
 				startActivityForResult(intent, 3);
 			}
 		});
@@ -97,13 +98,14 @@ public class CategoryActivity extends Activity{
     public void onHomeClick(View view)
     {
     	System.out.println("Home clicked");
-    	MainActivity.callMe(view.getContext(), false);
+    	onBackPressed();
     }
     
     @Override
     public void onBackPressed() {
     	System.out.println("Back pressed");
-    	return;
+    	ProductsHelper.setCurrentCategory("");
+    	MainActivity.callMe(CategoryActivity.this, false);
     }
 
 

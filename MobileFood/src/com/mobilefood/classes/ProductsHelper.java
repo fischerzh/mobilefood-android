@@ -94,14 +94,16 @@ public class ProductsHelper {
 	/**
 	 * @return the filteredList
 	 */
-	public static List<Product> getFilteredList() {
+	public static List<Product> getFilteredList() 
+	{
 		return filteredList;
 	}
 
 	/**
 	 * @param filteredList the filteredList to set
 	 */
-	public static void setFilteredList(List<Product> filteredList) {
+	public static void setFilteredList(List<Product> filteredList) 
+	{
 		ProductsHelper.filteredList = filteredList;
 	}
 
@@ -115,7 +117,8 @@ public class ProductsHelper {
 	/**
 	 * @param currentItem the currentItem to set
 	 */
-	public static void setCurrentItem(Product currentItem) {
+	public static void setCurrentItem(Product currentItem) 
+	{
 		ProductsHelper.currentItem = currentItem;
 	}
 	
@@ -150,18 +153,21 @@ public class ProductsHelper {
 	/**
 	 * @return the productNameToEan
 	 */
-	public static HashMap<String, String> getProductNameToEan() {
+	public static HashMap<String, String> getProductNameToEan() 
+	{
 		return productNameToEan;
 	}
 
 	/**
 	 * @param productNameToEan the productNameToEan to set
 	 */
-	public static void setProductNameToEan(HashMap<String, String> productNameToEan) {
+	public static void setProductNameToEan(HashMap<String, String> productNameToEan) 
+	{
 		ProductsHelper.productNameToEan = productNameToEan;
 	}
 
-	public static void setCurrentProducer(String currentProducer) {
+	public static void setCurrentProducer(String currentProducer) 
+	{
 		// TODO Auto-generated method stub
 		ProductsHelper.currentProducer = currentProducer;
 	}
@@ -171,7 +177,8 @@ public class ProductsHelper {
 		return ProductsHelper.currentProducer;
 	}
 
-	public static List<String> getProducerList() {
+	public static List<String> getProducerList() 
+	{
 		// TODO Auto-generated method stub
 		List<String> producerList = new ArrayList<String>();
 		for(Product prod: getProductList())
@@ -182,7 +189,8 @@ public class ProductsHelper {
 		return producerList;
 	}
 	
-	public static void setCurrentCategory(String currentCategory) {
+	public static void setCurrentCategory(String currentCategory) 
+	{
 		// TODO Auto-generated method stub
 		ProductsHelper.currentCategory = currentCategory;
 	}
@@ -192,7 +200,8 @@ public class ProductsHelper {
 		return ProductsHelper.currentCategory;
 	}
 
-	public static List<String> getCategoryList() {
+	public static List<String> getCategoryList() 
+	{
 		// TODO Auto-generated method stub
 		List<String> categoryList = new ArrayList<String>();
 		for(Product prod: getProductList())
@@ -200,6 +209,7 @@ public class ProductsHelper {
 			if(!categoryList.contains(prod.getCategory()))
 				categoryList.add(prod.getCategory());
 		}
-		return categoryList;	}
+		return categoryList;	
+	}
 
 }

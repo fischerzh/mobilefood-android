@@ -26,7 +26,8 @@ public class ProductActivity extends Activity{
 //	private ArrayAdapter adapter;
 	private EditText editTxt;
     private ArrayList<Product> originalProducts;
-		
+	
+    private boolean hasProducer, hasCategory;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +40,17 @@ public class ProductActivity extends Activity{
         
 //        adapter = new ProductListAdapter(this, ProductsHelper.getProductList());
 //        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, ProductsHelper.getProductListString());
+        
         /** INSTEAD OF LIST FROM ProductsHelper GET THE INTENT DETAILS PROVIDED !!! **/
-        if(!ProductsHelper.getCurrentProducer().contentEquals(""))
+//        if(!ProductsHelper.getCurrentProducer().contentEquals(""))
+        hasProducer = getIntent().hasExtra("Producer");
+        hasCategory = getIntent().hasExtra("Category");
+        System.out.println("Has Producer: " + hasProducer + ", Has Category: " + hasCategory);
+        if(getCallingActivity() == null || getCallingActivity().equals(null) || (!hasCategory && !hasProducer))
+        {
+            adapter = new ProductBaseAdapter(this, (ArrayList<Product>) ProductsHelper.getProductList());
+        }
+        else if(getCallingActivity().getShortClassName().contains("ProducerActivity") || hasProducer)
 		{
         	ArrayList<Product> prodFilteredProducer = new ArrayList<Product>();
         	for(Product prod: ProductsHelper.getProductList())
@@ -53,7 +63,7 @@ public class ProductActivity extends Activity{
             adapter = new ProductBaseAdapter(this, prodFilteredProducer);
 //            ProductsHelper.setCurrentProducer("");
 		}
-        else if (!ProductsHelper.getCurrentCategory().contentEquals(""))
+        else if(getCallingActivity().getShortClassName().contains("CategoryActivity") || hasCategory)
         {
         	ArrayList<Product> prodFilteredProducer = new ArrayList<Product>();
         	for(Product prod: ProductsHelper.getProductList())
@@ -66,15 +76,11 @@ public class ProductActivity extends Activity{
             adapter = new ProductBaseAdapter(this, prodFilteredProducer);
 //            ProductsHelper.setCurrentCategory("");
         }
-        else
-        {
-            adapter = new ProductBaseAdapter(this, (ArrayList<Product>) ProductsHelper.getProductList());
-        }
+
         listView.setAdapter(adapter);
         
         listView.setTextFilterEnabled(true);
         listView.setClickable(true);
-//        listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
         
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -88,8 +94,19 @@ public class ProductActivity extends Activity{
 			    currentItem = (Product)listView.getItemAtPosition(position);
 
 			    ProductsHelper.setCurrentItem(currentItem);
-//				ProductInfoActivity.callMe(adapter.getContext());
-				Intent intent = new Intent(ProductActivity.this, ProductInfoActivity.class);
+
+			    Intent intent = new Intent(ProductActivity.this, ProductInfoActivity.class);
+		        if(getCallingActivity() != null )
+		        {
+			        if(getCallingActivity().getShortClassName().contains("ProducerActivity"))
+					{
+						intent.putExtra("Producer", ProductsHelper.getCurrentProducer());
+					}
+					else if (getCallingActivity().getShortClassName().contains("CategoryActivity"))
+					{
+						intent.putExtra("Category", ProductsHelper.getCurrentCategory());
+					}
+		        }
 				startActivityForResult(intent, 1);
 			}
 		});
@@ -124,17 +141,45 @@ public class ProductActivity extends Activity{
 	
     public void onHomeClick(View view)
     {
-    	System.out.println("Home clicked");
-    	ProductsHelper.setCurrentProducer("");
-    	ProductsHelper.setCurrentCategory("");
-    	MainActivity.callMe(view.getContext(), false);
+    	onBackPressed();
     }
     
     @Override
     public void onBackPressed() {
     	System.out.println("Back pressed");
-    	return;
+    	startCallingActivity();
     }
 
-
+    public void startCallingActivity()
+    {
+    	Intent intent = null;
+    	if(getCallingActivity() == null || getCallingActivity().equals(null))
+    	{
+        	MainActivity.callMe(ProductActivity.this, false);
+    	}
+    	else if(getCallingActivity().getShortClassName().contains("ProductActivity") )
+    	{
+    		intent = new Intent(ProductActivity.this, ProductActivity.class);
+    		startActivity(intent);
+    	}
+    	else if(getCallingActivity().getShortClassName().contains("FavoritesActivity") )
+    	{
+    		intent = new Intent(ProductActivity.this, FavoritesActivity.class);
+    		startActivity(intent);
+    	}
+    	else if(getCallingActivity().getShortClassName().contains("ProducerActivity") || hasProducer)
+    	{
+    		intent = new Intent(ProductActivity.this, ProducerActivity.class);
+    		startActivity(intent);
+    	}
+    	else if(getCallingActivity().getShortClassName().contains("CategoryActivity") || hasCategory)
+    	{
+    		intent = new Intent(ProductActivity.this, CategoryActivity.class);
+    		startActivity(intent);
+    	}    	
+    	else
+    	{
+        	MainActivity.callMe(ProductActivity.this, false);
+    	}
+    }
 }

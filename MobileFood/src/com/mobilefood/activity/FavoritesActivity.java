@@ -105,18 +105,16 @@ public class FavoritesActivity extends Activity{
     public void onHomeClick(View view)
     {
     	System.out.println("Home clicked");
-    	MainActivity.callMe(view.getContext(), false);
-    	/** USE THE INTENT CALLER ONLY IF YOU ADD THE PARAMETER TO NOT RELOAD!!! **/
-//    	Intent intent = new Intent(view.getContext(), MainActivity.class);
-//    	startActivity(intent);
+    	onBackPressed();
     }
     
     @Override
     public void onBackPressed() {
     	System.out.println("Back pressed");
-    	return;
+    	MainActivity.callMe(FavoritesActivity.this, false);
+
     }
     
-
+    
 
 }
