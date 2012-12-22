@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lay_wrapper"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="fill_vertical" >
+
+    <RelativeLayout
+        android:id="@+id/lay_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/scanButton"
+        android:layout_centerHorizontal="true"
+        android:gravity="center" >
+
+        <Button android:id="@+id/button_products"
+            android:layout_width="120dip"
+            android:layout_height="120dip"
+            android:text="@string/btn_text_products" 
+            android:background="@drawable/green_button"
+            android:layout_margin="5dp"
+            android:drawableTop="@drawable/symbol_prod" />
+
+        <Button android:id="@+id/button_producer"
+            android:layout_width="120dip"
+            android:layout_height="120dip"
+            android:layout_toRightOf="@id/button_products"
+            android:text="@string/button2"     
+			android:background="@drawable/blue_button"
+            android:layout_margin="5dp"
+            android:drawableTop="@drawable/symbol_manuf" />
+
+        <Button android:id="@+id/button_category"
+            android:layout_width="120dip"
+            android:layout_height="120dip"
+            android:layout_below="@id/button_products"
+            android:text="@string/button3"
+			android:background="@drawable/brown_button"
+            android:layout_margin="5dp"
+            android:drawableTop="@drawable/symbol_category" />
+
+        <Button android:id="@+id/button_favorites"
+            android:layout_width="120dip"
+            android:layout_height="120dip"
+            android:layout_toRightOf="@id/button_category"
+            android:layout_below="@id/button_producer"
+            android:text="@string/button4"
+            android:background="@drawable/red_button"
+            android:layout_margin="5dp"
+            android:drawableTop="@drawable/symbol_favorites" />
+        
+    </RelativeLayout>
+
+        <Button
+	        android:id="@+id/scanButton"
+	        android:layout_width="match_parent"
+	        android:layout_height="75dp"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentLeft="true"
+	        android:onClick="readWebpage"
+	        android:text="Produkt scannen"/>
+
+</RelativeLayout>
