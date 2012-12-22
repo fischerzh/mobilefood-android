@@ -58,7 +58,7 @@ public class ProducerActivity extends Activity{
 			    ProductsHelper.setCurrentProducer(currentProducer);
 //				ProductInfoActivity.callMe(adapter.getContext());
 				Intent intent = new Intent(ProducerActivity.this, ProductActivity.class);
-				startActivityForResult(intent, 1);
+				startActivityForResult(intent, 4);
 			}
 		});
         

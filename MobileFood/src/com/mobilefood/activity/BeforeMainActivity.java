@@ -5,7 +5,11 @@ import com.mobilefood.classes.override.BarcodeAlertDialog;
 import com.mobilefood.classes.util.SharedPrefEditor;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class BeforeMainActivity extends Activity
 {
@@ -28,16 +33,28 @@ public class BeforeMainActivity extends Activity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("");
-
+        
         editor = new SharedPrefEditor(this);
         if(editor.getSelection() == null || editor.getSelection().equals(""))
         {
-        	loadSelectionList();
+            if(isNetworkAvailable())
+            {
+            	loadSelectionList();
+            }
+        	else
+            {
+//				BarcodeAlertDialog alertDialog = new BarcodeAlertDialog(this, "Internet wird benötigt!", R.style.style_no_internet, false);
+//				alertDialog.show();
+		        Toast.makeText(this,"Internet wird benötigt!", Toast.LENGTH_LONG).show();	
+		        finish();
+		        return;
+            }
         }
         else
         {
         	startMainActivity();
-        }
+        }       
+        
 
     }
 	
@@ -71,7 +88,7 @@ public class BeforeMainActivity extends Activity
 				// TODO Auto-generated method stub
         		BarcodeAlertDialog alertDialog= new BarcodeAlertDialog(view.getContext(), "Die Inhalte dieser App wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, " +
         				"Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen."
-        				, R.style.style_disclaimer);
+        				, R.style.style_disclaimer, false);
         		alertDialog.show();
 			}
 		});
@@ -84,6 +101,11 @@ public class BeforeMainActivity extends Activity
 		startActivity(intent);
 	}
 	
-	
+	private boolean isNetworkAvailable() 
+	{
+	    ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null;
+	}
 
 }

@@ -9,7 +9,15 @@
 	<style name="style_product_found" parent="@android:style/Theme.Dialog">
 		<item name="android:background">#B2EBCE</item> 
  	</style>
+ 	
+	<style name="style_product_bread" parent="@android:style/Theme.Dialog">
+		<item name="android:background">#EDB14A</item> 
+ 	</style>
 
+    <style name="style_no_internet" parent="@android:style/Theme.Dialog">
+		<item name="android:background">#3c3c3c</item> 
+ 	</style>
+	
 	<style name="style_disclaimer" parent="@android:style/Theme.Dialog">
 		<item name="android:background">#3c3c3c</item> 
  	</style>

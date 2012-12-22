@@ -51,7 +51,7 @@ public class ProductActivity extends Activity{
         		}
         	}
             adapter = new ProductBaseAdapter(this, prodFilteredProducer);
-            ProductsHelper.setCurrentProducer("");
+//            ProductsHelper.setCurrentProducer("");
 		}
         else if (!ProductsHelper.getCurrentCategory().contentEquals(""))
         {
@@ -64,7 +64,7 @@ public class ProductActivity extends Activity{
         		}
         	}
             adapter = new ProductBaseAdapter(this, prodFilteredProducer);
-            ProductsHelper.setCurrentCategory("");
+//            ProductsHelper.setCurrentCategory("");
         }
         else
         {
@@ -125,6 +125,8 @@ public class ProductActivity extends Activity{
     public void onHomeClick(View view)
     {
     	System.out.println("Home clicked");
+    	ProductsHelper.setCurrentProducer("");
+    	ProductsHelper.setCurrentCategory("");
     	MainActivity.callMe(view.getContext(), false);
     }
     

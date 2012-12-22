@@ -21,16 +21,21 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import com.mobilefood.activity.R;
 import com.mobilefood.classes.Product;
 import com.mobilefood.classes.Products;
 import com.mobilefood.classes.ProductsHelper;
+import com.mobilefood.classes.override.BarcodeAlertDialog;
 import com.mobilefood.classes.util.SharedPrefEditor;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 public class LoadJSON extends AsyncTask<Context, Integer, String> {
     
@@ -91,7 +96,8 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	 * @return the productList
 	 */
 	public ArrayList<Product> getProductList() {
-		return (ArrayList<Product>)getProductsList().get(0).getProducts();
+		ArrayList<Product> returnList = (ArrayList<Product>)getProductsList().get(0).getProducts();
+		return returnList;
 	}
 
 
@@ -120,15 +126,18 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		System.out.println("Start JSON Loader");
 		publishProgress(0);
 		
-		try {
-			
-			setProductsList(readJsonStreamProducts());
-			System.out.println(productsList.get(0).getProducts().get(0).getName());
-			System.out.println(productsList.get(0).getProducts().get(0).getEan());
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		if(isNetworkAvailable())
+//		{
+			try {
+				
+				setProductsList(readJsonStreamProducts());
+				System.out.println(productsList.get(0).getProducts().get(0).getName());
+				System.out.println(productsList.get(0).getProducts().get(0).getEan());
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+//		}
 		publishProgress(100);
 		
 		/** Get Favorites from SharedPref if available **/
@@ -153,7 +162,15 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 				}
 			}
 		}
-		return "JSON Object ready";
+		else
+		{
+//    		BarcodeAlertDialog alertDialog = new BarcodeAlertDialog(getContext(), "Internet wird benštigt!", R.style.style_product_found, false);
+//    		alertDialog.show();
+//           Toast.makeText(getContext(),"Internet wird benštigt!", Toast.LENGTH_LONG).show();	
+			return "NOT_READY";
+    		
+		}
+		return "READY";
 
 	}
 
@@ -180,20 +197,22 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	{	
 		System.out.println("Json Stream reading..");
 		Gson gson = new Gson();
+		if(isNetworkAvailable())
 //		JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getJSONDataFromURL("http://www.uitiwg.ch/products.json"), "UTF-8")));
-		if(hasChanged(jsonURL) || !fileExists())
 		{
-//			System.out.println("has file changed? " + hasChanged(jsonURL));
-			BufferedReader r = new BufferedReader(new InputStreamReader(getJSONDataFromURL(this.getUrl()), "UTF-8"));
-			StringBuilder total = new StringBuilder();
-			String line;
-			while( (line = r.readLine()) != null) {
-				total.append(line);
+			if(hasChanged(jsonURL) || !fileExists())
+			{
+	//			System.out.println("has file changed? " + hasChanged(jsonURL));
+				BufferedReader r = new BufferedReader(new InputStreamReader(getJSONDataFromURL(this.getUrl()), "UTF-8"));
+				StringBuilder total = new StringBuilder();
+				String line;
+				while( (line = r.readLine()) != null) {
+					total.append(line);
+				}
+				r.close();
+				storeJSONLocal(total.toString());
 			}
-			r.close();
-			storeJSONLocal(total.toString());
 		}
-		
 		JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getJSONDataFromFile(), "UTF-8")));
 		
         List<Products> products = new ArrayList<Products>();
@@ -312,10 +331,25 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 //		return is;
 		return fis;
 	}
+	
+	private boolean isNetworkAvailable() 
+	{
+	    ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null;
+	}
     
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		ProductsHelper.setProductList(getProductsList().get(0).getProducts());
+		if (result.contentEquals("READY"))
+			ProductsHelper.setProductList(getProductsList().get(0).getProducts());
+		else if(result.contentEquals("NOT_READY"))
+		{
+			BarcodeAlertDialog alertDialog = new BarcodeAlertDialog(getContext(), "Internet wird benštigt!", R.style.style_no_internet, false);
+			alertDialog.show();
+			
+//          Toast.makeText(getContext(),"Internet wird benštigt!", Toast.LENGTH_LONG).show();	
+		}
 	}
 	
 	protected void onProgressUpdate(Integer... value) {

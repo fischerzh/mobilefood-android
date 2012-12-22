@@ -43,24 +43,33 @@ public class ProductInfoActivity extends Activity
         prod_text.setText("Kategorie:\t\t" + currentProd.getCategory());
         
         TextView prod_content = (TextView) findViewById(R.id.prod_info_contents);
-        prod_content.setText("Inhalte:\t\t\t" + currentProd.getContents().toString());
+        prod_content.setText("Inhalte:\t\t\t\t" + currentProd.getContents().toString());
 	}
 	
 	
 	
     public void onBackClick(View view)
     {
-    	System.out.println("Back clicked: " + getCallingActivity().getShortClassName());
+//    	System.out.println("Back clicked: " + getCallingActivity().getShortClassName());
     	Intent intent = null;
-    	if(getCallingActivity().getShortClassName().contains("ProductActivity") )
+    	if(getCallingActivity() == null || getCallingActivity().equals(null))
+    	{
+        	MainActivity.callMe(view.getContext(), false);
+    	}
+    	else if(getCallingActivity().getShortClassName().contains("ProductActivity") )
     	{
     		intent = new Intent(view.getContext(), ProductActivity.class);
+    		startActivity(intent);
     	}
-    	if(getCallingActivity().getShortClassName().contains("FavoritesActivity") )
+    	else if(getCallingActivity().getShortClassName().contains("FavoritesActivity") )
     	{
     		intent = new Intent(view.getContext(), FavoritesActivity.class);
+    		startActivity(intent);
     	}
-		startActivity(intent);
+    	else
+    	{
+        	MainActivity.callMe(view.getContext(), false);
+    	}
     }
     
     @Override

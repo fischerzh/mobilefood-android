@@ -101,7 +101,9 @@ public final class R {
     }
     public static final class style {
         public static final int AppTheme=0x7f050000;
-        public static final int style_disclaimer=0x7f050003;
+        public static final int style_disclaimer=0x7f050005;
+        public static final int style_no_internet=0x7f050004;
+        public static final int style_product_bread=0x7f050003;
         public static final int style_product_found=0x7f050002;
         public static final int style_product_not_found=0x7f050001;
     }

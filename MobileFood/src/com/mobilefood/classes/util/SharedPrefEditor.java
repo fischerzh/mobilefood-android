@@ -28,15 +28,15 @@ public class SharedPrefEditor {
 		"JLG Or Chadasch"};
 	
 	private String[] urlList = {
-		"http://www.uitiwg.ch/products.json", 
-		"http://www.uitiwg.ch/products_bigdata.json", 
-		"http://www.uitiwg.ch/products_bigdata.json", 
-		"http://www.uitiwg.ch/products.json", 
-		"http://www.uitiwg.ch/products.json", 
-		"http://www.uitiwg.ch/products_bigdata.json",
-		"http://www.uitiwg.ch/products_bigdata.json", 
 		"http://www.uitiwg.ch/products_contents.json", 
-		"http://www.uitiwg.ch/products_id.json"};
+		"http://www.uitiwg.ch/products_contents.json", 
+		"http://www.uitiwg.ch/products_contents.json", 
+		"http://www.uitiwg.ch/products_contents.json", 
+		"http://www.uitiwg.ch/products_contents.json", 
+		"http://www.uitiwg.ch/products_contents.json",
+		"http://www.uitiwg.ch/products_contents.json", 
+		"http://www.uitiwg.ch/products_contents.json", 
+		"http://www.uitiwg.ch/products_contents.json"};
 	
 	private HashMap<String, String> selectionToUrlMap;
 	private String activeURL;

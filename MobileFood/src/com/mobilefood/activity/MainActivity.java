@@ -10,6 +10,7 @@ import com.mobilefood.classes.override.BarcodeAlertDialog;
 import com.mobilefood.classes.util.SharedPrefEditor;
 import com.mobilefood.json.LoadJSON;
 
+import android.R.style;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -128,24 +129,30 @@ public class MainActivity extends Activity {
                 System.out.println("Scan Result: "  + contents);
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 // Handle successful scan
+                Product currentProd = null;
                 Toast.makeText(MainActivity.this.applicationContext,"Product scanned: " + contents, Toast.LENGTH_LONG).show();		
-
                 for (Product prod : ProductsHelper.getProductList())
                 {
                 	if (prod.getEan().compareTo(contents) == 0 || prod.getEan().contains(contents)) 
                 	{
+                		currentProd = prod;
+                		ProductsHelper.setCurrentItem(prod);
                         productFound = true;
                 	}
                 }
                 if (productFound)
                 {
-            		BarcodeAlertDialog alertDialog= new BarcodeAlertDialog(act, "Produkt gefunden", R.style.style_product_found);
+                	BarcodeAlertDialog alertDialog;
+					if (currentProd.getCategory().contentEquals("Brot"))
+						alertDialog = new BarcodeAlertDialog(act, "Produkt gefunden: " + currentProd.getName(), R.style.style_product_bread, productFound);
+					else
+						alertDialog  = new BarcodeAlertDialog(act, "Produkt gefunden: " + currentProd.getName(), R.style.style_product_found, productFound);
             		alertDialog.show();
 //                  Toast.makeText(MainActivity.this.applicationContext,"PRODUCT IS KOSHER!", Toast.LENGTH_LONG).show();	
                 }
                 else
                 {
-            		BarcodeAlertDialog alertDialog= new BarcodeAlertDialog(act, "Produkt nicht gefunden", R.style.style_product_not_found);
+            		BarcodeAlertDialog alertDialog= new BarcodeAlertDialog(act, "Produkt nicht gefunden", R.style.style_product_not_found, productFound);
             		alertDialog.show();
 //                    Toast.makeText(MainActivity.this.applicationContext,"NO PRODUCT FOUND: NOT KOSHER!", Toast.LENGTH_LONG).show();	
                 }
@@ -229,5 +236,6 @@ public class MainActivity extends Activity {
 	public void setJsonUrl(String jsonUrl) {
 		this.jsonUrl = jsonUrl;
 	}
+
 
 }
