@@ -160,7 +160,7 @@ public class ProductBaseAdapter extends BaseAdapter implements Filterable{
                     constraint = constraint.toString().toLowerCase();
                     for (int i = 0; i < originalValues.size(); i++) {
                         Product data = originalValues.get(i);
-                        if (data.getName().toLowerCase().startsWith(constraint.toString())) {
+                        if (data.getName().toLowerCase().contains(constraint.toString())) {
                         	System.out.println("Add Filter: " + data.getName());
                             FilteredArrList.add(data);
                         }
