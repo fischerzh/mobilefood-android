@@ -115,8 +115,13 @@ public class SharedPrefEditor {
 	
 	public void saveCurrentFavList()
 	{
-		setProductList((ArrayList<Product>)ProductsHelper.getProductWatchList());
-		System.out.println("Current Watch-List saved to SharedPref: " + ProductsHelper.getProductWatchList().toString());
+//		setProductList((ArrayList<Product>)ProductsHelper.getProductWatchList());
+		ArrayList<Product> favList = new ArrayList<Product>();
+		favList.addAll(ProductsHelper.getProductFavorites().values());
+		
+		setProductList(favList);
+		
+		System.out.println("Current Watch-List saved to SharedPref: " + ProductsHelper.getProductFavorites().values().toString());
 	}
 
 	/**

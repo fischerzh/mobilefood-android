@@ -128,15 +128,15 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		
 //		if(isNetworkAvailable())
 //		{
-			try {
-				
-				setProductsList(readJsonStreamProducts());
-				System.out.println(productsList.get(0).getProducts().get(0).getName());
-				System.out.println(productsList.get(0).getProducts().get(0).getEan());
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		try {
+			
+			setProductsList(readJsonStreamProducts());
+			System.out.println(productsList.get(0).getProducts().get(0).getName());
+			System.out.println(productsList.get(0).getProducts().get(0).getEan());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 //		}
 		publishProgress(100);
 		
@@ -197,6 +197,11 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	{	
 		System.out.println("Json Stream reading..");
 		Gson gson = new Gson();
+		/** 
+		 * ONLY LOAD THE DATA FROM INTERNET IF THERE IS A CONNECTION
+		 * - LOAD NEW DATA IF THE FILE HAS CHANGED ON THE URL (AND NO LOCAL FILE EXISTS)
+		 * - OTHERWISE SEE IF THERE EXISTS A FILE IN THE SHARED PREFERENCES AND LOAD IT
+		**/
 		if(isNetworkAvailable())
 //		JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getJSONDataFromURL("http://www.uitiwg.ch/products.json"), "UTF-8")));
 		{
@@ -255,6 +260,7 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	      }
 	      else
 	      {
+	    	  // File has changed since last access, load new File and save lastModifiedDate into SharedPref
 	    	  System.out.println("NOT EQUAL DATE: FILE CHANGE");
 		      storeDateInSharedPref(dateFromWebStr);
 		      hasChanged = true;

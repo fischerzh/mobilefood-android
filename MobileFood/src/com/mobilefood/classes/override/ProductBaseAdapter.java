@@ -8,12 +8,14 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -73,7 +75,7 @@ public class ProductBaseAdapter extends BaseAdapter implements Filterable{
 			holder.setTxtEan((TextView)convertView.findViewById(R.id.prod_item_ean));
 			holder.setChkBox((CheckBox)convertView.findViewById(R.id.prod_item_checkbox));
 //			convertView.setTag(holder);
-			holder.getChkBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			holder.getChkBox().setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

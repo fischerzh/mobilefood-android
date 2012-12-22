@@ -12,6 +12,7 @@ public class ProductsHelper {
 	private static ArrayList<String> productListString;
 	private static String[]	productName, productEAN;
 	private static HashMap<String, String> productNameToEan;
+	private static HashMap<Integer, Product> productFavorites;
 	
 	private static Product currentItem;
 	private static String currentProducer = "";
@@ -60,20 +61,24 @@ public class ProductsHelper {
 	public static void addProductToWatchList(Product prod)
 	{
 		System.out.println("Add product to watch list: " + prod.getName());
-		if (ProductsHelper.productWatchList != null)
-		{
-			ProductsHelper.productWatchList.add(prod);
-		}
-		else
-		{
-			ProductsHelper.initProductWatchList();
-		}
+//		if (ProductsHelper.productWatchList != null)
+//		{
+//			ProductsHelper.productWatchList.add(prod);
+//		}
+//		else
+//		{
+//			ProductsHelper.initProductWatchList();
+//		}
+		if(ProductsHelper.getProductFavorites() == null)
+			ProductsHelper.productFavorites = new HashMap<Integer, Product>();
+		ProductsHelper.productFavorites.put(prod.getId(), prod);
 	}
 	
 	public static void removeProductFromWatchList(Product prod)
 	{
 		System.out.println("Remove product from watch list: " + prod.getName());
-		ProductsHelper.productWatchList.remove(prod);
+//		ProductsHelper.productWatchList.remove(prod);
+		ProductsHelper.productFavorites.remove(prod.getId());
 	}
 
 	public static void initProductWatchList()
@@ -89,6 +94,20 @@ public class ProductsHelper {
         	productListString.add(prod.getName());
         }
         return productListString;
+	}
+
+	/**
+	 * @return the productFavorites
+	 */
+	public static HashMap<Integer, Product> getProductFavorites() {
+		return productFavorites;
+	}
+
+	/**
+	 * @param productFavorites the productFavorites to set
+	 */
+	public static void setProductFavorites(HashMap<Integer, Product> productFavorites) {
+		ProductsHelper.productFavorites = productFavorites;
 	}
 
 	/**
