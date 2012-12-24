@@ -33,17 +33,30 @@ public class ProductInfoActivity extends Activity
         System.out.println("Got Product: " + currentProd.getName());
         System.out.println("Got Content: " + currentProd.getContents().toString());
 	
-        TextView prod_titel = (TextView) findViewById(R.id.prod_info_titel);
-        prod_titel.setText(ProductsHelper.getCurrentItem().getName() + " (EAN: " + currentProd.getEan() +" )");
+        TextView prod_titel = (TextView) findViewById(R.id.prod_info_prod_txt);
+        prod_titel.setText(currentProd.getName());
         
-        TextView prod_sub_titel = (TextView) findViewById(R.id.prod_info_subtitel);
-        prod_sub_titel.setText("Hersteller:\t\t" +currentProd.getProducer());
+        TextView prod_ean = (TextView) findViewById(R.id.prod_info_ean_txt);
+        prod_ean.setText(currentProd.getEan());
         
-        TextView prod_text = (TextView) findViewById(R.id.prod_info_text);
-        prod_text.setText("Kategorie:\t\t" + currentProd.getCategory());
+        TextView prod_producer = (TextView) findViewById(R.id.prod_info_producer_txt);
+        prod_producer.setText(currentProd.getProducer());
         
-        TextView prod_content = (TextView) findViewById(R.id.prod_info_contents);
-        prod_content.setText("Inhalte:\t\t\t\t" + currentProd.getContents().toString());
+        TextView prod_cat = (TextView) findViewById(R.id.prod_info_cat_txt);
+        prod_cat.setText(currentProd.getCategory());
+        
+//        TextView prod_package = (TextView) findViewById(R.id.prod_info_package_txt);
+//        prod_package.setText();
+//       
+//        TextView prod_koscher = (TextView) findViewById(R.id.prod_info_koscher_att_txt);
+//        prod_koscher.setText(currentProd.);        
+        
+//        TextView prod_notes = (TextView) findViewById(R.id.prod_info_note_txt);
+//        prod_cat.setText(currentProd.getNotes());
+        
+        TextView prod_content = (TextView) findViewById(R.id.prod_info_content_txt);
+        prod_content.setText(currentProd.getContents());
+        
 	}
 	
 	
@@ -64,27 +77,26 @@ public class ProductInfoActivity extends Activity
     public void startCallingActivity()
     {
     	Intent intent = null;
-    	if(getCallingActivity() == null || getCallingActivity().equals(null))
+    	if(getCallingActivity() != null )
     	{
-        	MainActivity.callMe(getApplicationContext(), false);
-    	}
-    	else if(getCallingActivity().getShortClassName().contains("ProductActivity") )
-    	{
-    		intent = new Intent(getApplicationContext(), ProductActivity.class);
-    		if(getIntent().hasExtra("Producer"))
-				intent.putExtra("Producer", ProductsHelper.getCurrentProducer());
-    		if(getIntent().hasExtra("Category"))
-				intent.putExtra("Category", ProductsHelper.getCurrentCategory());
-    		startActivityForResult(intent, 1);
-    	}
-    	else if(getCallingActivity().getShortClassName().contains("FavoritesActivity") )
-    	{
-    		intent = new Intent(getApplicationContext(), FavoritesActivity.class);
-    		startActivityForResult(intent, 2);
+	    	if(getCallingActivity().getShortClassName().contains("ProductActivity") )
+	    	{
+	    		intent = new Intent(ProductInfoActivity.this, ProductActivity.class);
+	    		if(getIntent().hasExtra("Producer"))
+					intent.putExtra("Producer", ProductsHelper.getCurrentProducer());
+	    		if(getIntent().hasExtra("Category"))
+					intent.putExtra("Category", ProductsHelper.getCurrentCategory());
+	    		startActivityForResult(intent, 1);
+	    	}
+	    	else if(getCallingActivity().getShortClassName().contains("FavoritesActivity") )
+	    	{
+	    		intent = new Intent(ProductInfoActivity.this, FavoritesActivity.class);
+	    		startActivityForResult(intent, 2);
+	    	}
     	}
     	else
     	{
-        	MainActivity.callMe(getApplicationContext(), false);
+        	MainActivity.callMe(ProductInfoActivity.this, false);
     	}
     }
 }

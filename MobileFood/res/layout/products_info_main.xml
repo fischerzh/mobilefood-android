@@ -14,77 +14,271 @@
             layout="@layout/action_bar_back" />
 
         <TextView
-            android:id="@+id/prod_info_text"
+            android:id="@+id/prod_info_prod_titel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/header"
-            android:layout_marginTop="97dp"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/prod_info_subtitel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/prod_info_text"
-            android:layout_alignLeft="@+id/prod_info_text"
-            android:layout_marginBottom="37dp"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/prod_info_titel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/prod_info_subtitel"
             android:layout_alignLeft="@+id/header"
-            android:layout_marginBottom="20dp"
-            android:text="TextView"
+            android:layout_below="@+id/header"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:text="Produkt"
+            android:textColor="#3B63D4"
+            android:textSize="16dp"
             android:textStyle="bold" />
-        
-         <TextView
-            android:id="@+id/prod_info_contents"
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/prod_info_prod_titel"
+            android:layout_alignLeft="@+id/prod_info_prod_titel"
+            android:paddingBottom="2dp"
+            android:paddingRight="5dp"
+            android:paddingTop="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/divider_horizontal_blue" />
+
+        <TextView
+            android:id="@+id/prod_info_prod_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/prod_info_text"
-            android:layout_below="@+id/prod_info_text"
-            android:layout_marginTop="25dp"
+            android:layout_alignLeft="@+id/prod_info_prod_titel"
+            android:layout_below="@+id/prod_info_prod_titel"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/prod_info_ean_titel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/prod_info_prod_txt"
+            android:layout_below="@+id/prod_info_prod_txt"
+            android:layout_marginTop="10dp"
+            android:text="EAN-Nr."
+            android:textColor="#3B63D4"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/prod_info_ean_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@+id/prod_info_ean_titel"
             android:text="TextView" />
 
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/prod_info_subtitel"
+            android:layout_alignBottom="@+id/prod_info_ean_titel"
             android:layout_alignParentRight="true"
             android:paddingBottom="2dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:paddingTop="2dp"
             android:scaleType="fitXY"
-            android:src="@android:drawable/divider_horizontal_dark" />
+            android:src="@drawable/divider_horizontal_blue" />
 
-
+        <TextView
+            android:id="@+id/prod_info_producer_titel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/prod_info_ean_txt"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:text="Hersteller"
+            android:textColor="#3B63D4"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/prod_info_contents"
-            android:layout_alignLeft="@+id/prod_info_text"
-            android:paddingBottom="2dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="2dp"
-            android:scaleType="fitXY"
-            android:src="@android:drawable/divider_horizontal_dark" />
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/prod_info_contents"
+            android:layout_alignBottom="@+id/prod_info_producer_titel"
             android:layout_alignParentRight="true"
             android:paddingBottom="2dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:paddingTop="2dp"
             android:scaleType="fitXY"
-            android:src="@android:drawable/divider_horizontal_dark" />
+            android:src="@drawable/divider_horizontal_blue" />
+
+        <TextView
+            android:id="@+id/prod_info_producer_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/prod_info_producer_titel"
+            android:layout_below="@+id/prod_info_producer_titel"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/prod_info_cat_titel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/prod_info_producer_txt"
+            android:layout_below="@+id/prod_info_producer_txt"
+            android:layout_marginTop="10dp"
+            android:text="Kategorie"
+            android:textColor="#3B63D4"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/prod_info_cat_titel"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="2dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/divider_horizontal_blue" />
+
+        <TextView
+            android:id="@+id/prod_info_cat_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/prod_info_cat_titel"
+            android:layout_below="@+id/prod_info_cat_titel"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/prod_info_package_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/prod_info_cat_txt"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:text="Verpackung"
+            android:textColor="#3B63D4"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/prod_info_package_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@+id/prod_info_package_title"
+            android:text="TextView" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/prod_info_package_title"
+            android:layout_alignParentLeft="true"
+            android:paddingBottom="2dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/divider_horizontal_blue" />
+
+        <TextView
+            android:id="@+id/prod_info_kosher_att_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/prod_info_package_txt"
+            android:layout_below="@+id/prod_info_package_txt"
+            android:layout_marginTop="10dp"
+            android:text="Koscher"
+            android:textColor="#3B63D4"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/prod_info_koscher_att_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/prod_info_kosher_att_title"
+            android:layout_below="@+id/prod_info_kosher_att_title"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/prod_info_note_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/prod_info_koscher_att_txt"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:text="Bemerkungen"
+            android:textColor="#3B63D4"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ImageView01"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/prod_info_note_title"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="2dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/divider_horizontal_blue" />
+
+        <TextView
+            android:id="@+id/prod_info_note_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/prod_info_note_title"
+            android:layout_below="@+id/prod_info_note_title"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/prod_info_content_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/prod_info_note_txt"
+            android:layout_below="@+id/prod_info_note_txt"
+            android:layout_marginTop="10dp"
+            android:text="Inhaltsstoffe"
+            android:textColor="#3B63D4"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/prod_info_content_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@+id/prod_info_content_title"
+            android:text="TextView" 
+            android:maxLines = "5"
+			android:scrollbars = "vertical"
+            />
+
+        <ImageView
+            android:id="@+id/ImageView02"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/prod_info_content_title"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="2dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/divider_horizontal_blue" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/prod_info_koscher_att_txt"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="2dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/divider_horizontal_blue" />
 
     </RelativeLayout>

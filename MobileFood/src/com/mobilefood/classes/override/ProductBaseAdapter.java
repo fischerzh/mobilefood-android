@@ -96,7 +96,7 @@ public class ProductBaseAdapter extends BaseAdapter implements Filterable{
 //						resultList.get(getPosition).setFavorite(false);
 					    ProductsHelper.removeProductFromWatchList(resultList.get(getPosition));
 					}
-					/*** SAVE FAVORITES LIST TO SHARED PREF ***/
+					/** SAVE FAVORITES LIST TO SHARED PREF **/
 					saveFavorites();
 					
 				}
