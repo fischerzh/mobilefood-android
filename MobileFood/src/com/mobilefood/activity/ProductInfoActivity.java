@@ -45,17 +45,25 @@ public class ProductInfoActivity extends Activity
         TextView prod_cat = (TextView) findViewById(R.id.prod_info_cat_txt);
         prod_cat.setText(currentProd.getCategory());
         
-//        TextView prod_package = (TextView) findViewById(R.id.prod_info_package_txt);
-//        prod_package.setText();
-//       
-//        TextView prod_koscher = (TextView) findViewById(R.id.prod_info_koscher_att_txt);
-//        prod_koscher.setText(currentProd.);        
+        TextView prod_package = (TextView) findViewById(R.id.prod_info_package_txt);
+        prod_package.setText(currentProd.getPackaging());
+       
+        TextView prod_koscher = (TextView) findViewById(R.id.prod_info_koscher_att_txt);
+        String parve = "Nein", chalavakum = "Nein";
+        if(currentProd.isParve())
+        	parve = "Ja";
+        if(currentProd.isChalavakum())
+        	chalavakum = "Ja";
+        prod_koscher.setText("Parve: " + parve + " , Chalavakum: " + chalavakum);    
         
-//        TextView prod_notes = (TextView) findViewById(R.id.prod_info_note_txt);
-//        prod_cat.setText(currentProd.getNotes());
+        TextView prod_controller = (TextView) findViewById(R.id.prod_info_controller_txt);
+        prod_controller.setText(currentProd.getController());          
+        
+        TextView prod_notes = (TextView) findViewById(R.id.prod_info_note_txt);
+        prod_notes.setText(currentProd.getComment());
         
         TextView prod_content = (TextView) findViewById(R.id.prod_info_content_txt);
-        prod_content.setText(currentProd.getContents());
+        prod_content.setText(currentProd.getContentList());
         
 	}
 	

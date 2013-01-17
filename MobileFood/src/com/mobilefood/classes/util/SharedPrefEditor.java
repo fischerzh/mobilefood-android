@@ -33,10 +33,10 @@ public class SharedPrefEditor {
 		"http://www.uitiwg.ch/products_contents.json", 
 		"http://www.uitiwg.ch/products_contents.json", 
 		"http://www.uitiwg.ch/products_contents.json", 
-		"http://www.uitiwg.ch/products_contents.json",
-		"http://www.uitiwg.ch/products_contents.json", 
-		"http://www.uitiwg.ch/products_contents.json", 
-		"http://www.uitiwg.ch/products_contents.json"};
+		"http://46.163.77.113:8080/SKoscher/JSON/Big_produkt_list.json", 
+		"http://46.163.77.113:8080/SKoscher/JSON/Produkt_Brot.json", 
+		"http://46.163.77.113:8080/SKoscher/JSON/ICZ%20Zuerich.json", 
+		"http://www.uitiwg.ch/products_contents_extended.json"};
 	
 	private HashMap<String, String> selectionToUrlMap;
 	private String activeURL;

@@ -16,22 +16,35 @@ public class Product implements Serializable{
 	private int id;
 	
 	@SerializedName("ean")
-	private String ean;
+	private String ean = "";
 	
 	@SerializedName("name")
-	private String name;
+	private String name = "";
 
 	@SerializedName("producer")
-	private String producer;
+	private String producer = "";
 	
-	@SerializedName("kontrolleur")
-	private String kontrolleur;
+	@SerializedName("controller")
+	private String controller = "";
 
 	@SerializedName("category")
-	private String category;
+	private String category = "";
 	
 	@SerializedName("contents")
-	private String contents;
+	private List<String> contents;
+	
+	@SerializedName("packaging")
+	private String packaging = "";
+	
+	@SerializedName("chalavakum")
+	private boolean chalavakum=false;
+	
+	@SerializedName("parve")
+	private boolean parve=false;
+	
+	@SerializedName("comment")
+	private String comment;
+	
 	
 	private boolean isFavorite;
 
@@ -98,17 +111,17 @@ public class Product implements Serializable{
 	}
 
 	/**
-	 * @return the kontrolleur
+	 * @return the controller
 	 */
-	public String getKontrolleur() {
-		return kontrolleur;
+	public String getController() {
+		return controller;
 	}
 
 	/**
-	 * @param kontrolleur the kontrolleur to set
+	 * @param kontrolleur the controller to set
 	 */
-	public void setKontrolleur(String kontrolleur) {
-		this.kontrolleur = kontrolleur;
+	public void setController(String controller) {
+		this.controller = controller;
 	}
 
 	
@@ -129,14 +142,25 @@ public class Product implements Serializable{
 	/**
 	 * @return the contents
 	 */
-	public String getContents() {
+	public List<String> getContents() {
 		return contents;
+	}
+	
+	public String getContentList() {
+		String delim = "";
+		StringBuilder sb = new StringBuilder();
+		for (String c : contents)
+		{
+			sb.append(delim).append(c);
+			delim = ",";
+		}
+		return sb.toString();
 	}
 
 	/**
 	 * @param contents the contents to set
 	 */
-	public void setContents(String contents) {
+	public void setContents(List<String> contents) {
 		this.contents = contents;
 	}
 
@@ -152,6 +176,62 @@ public class Product implements Serializable{
 	 */
 	public void setFavorite(boolean isFavorite) {
 		this.isFavorite = isFavorite;
+	}
+
+	/**
+	 * @return the comment
+	 */
+	public String getComment() {
+		return comment;
+	}
+
+	/**
+	 * @param comment the comment to set
+	 */
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	/**
+	 * @return the packaging
+	 */
+	public String getPackaging() {
+		return packaging;
+	}
+
+	/**
+	 * @param packaging the packaging to set
+	 */
+	public void setPackaging(String packaging) {
+		this.packaging = packaging;
+	}
+
+	/**
+	 * @return the chalavakum
+	 */
+	public boolean isChalavakum() {
+		return chalavakum;
+	}
+
+	/**
+	 * @param chalavakum the chalavakum to set
+	 */
+	public void setChalavakum(boolean chalavakum) {
+		this.chalavakum = chalavakum;
+	}
+
+	/**
+	 * @return the parve
+	 */
+	public boolean isParve() {
+		return parve;
+	}
+
+	/**
+	 * @param parve the parve to set
+	 */
+	public void setParve(boolean parve) {
+		this.parve = parve;
 	}
 	
 	
