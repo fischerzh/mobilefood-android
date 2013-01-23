@@ -1,6 +1,8 @@
 package com.mobilefood.activity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.mobilefood.activity.R;
 import com.mobilefood.barcode.*;
@@ -18,6 +20,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +28,7 @@ public class MainActivity extends Activity {
 	
 	private TextView textView;
 	private Button scanButton, productsButton, favButton, producerButton, categoryButton;
+	private EditText eanNrTxt;
 	private String jsonUrl;
 	public static final String PREFS_NAME = "DateOfFile";
 	
@@ -50,7 +54,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_test);
         setTitle("");
         this.act = MainActivity.this;
 //        this.textView = (TextView) findViewById(R.id.TextView01);
@@ -63,6 +67,7 @@ public class MainActivity extends Activity {
         favButton = (Button) findViewById(R.id.button_favorites);
         producerButton = (Button) findViewById(R.id.button_producer);
         categoryButton = (Button) findViewById(R.id.button_category);
+        eanNrTxt = (EditText) findViewById(R.id.eanNr);
         
         //Start AsyncTask for JSON only if app was started
         if(refreshHome)
@@ -81,9 +86,18 @@ public class MainActivity extends Activity {
         scanButton.setOnClickListener(new Button.OnClickListener() {
         	public void onClick(View v) {
         		System.out.println("Scan Product clicked");
-
-        		IntentIntegrator integrator = new IntentIntegrator(act);
-        		integrator.initiateScan();
+        		
+        		if(eanNrTxt.getText().length()>0)
+        		{
+					Intent intent = new Intent(getApplicationContext(), IntentIntegrator.class);
+		    		intent.putExtra("SCAN_RESULT", eanNrTxt.getText().toString());
+		    		onActivityResult(0, android.app.Activity.RESULT_OK, intent);
+        		}
+        		else
+        		{
+            		IntentIntegrator integrator = new IntentIntegrator(act);
+            		integrator.initiateScan();
+            	}
 
         	}
     	});
@@ -131,30 +145,53 @@ public class MainActivity extends Activity {
                 // Handle successful scan
                 Product currentProd = null;
                 Toast.makeText(MainActivity.this.applicationContext,"Product scanned: " + contents, Toast.LENGTH_LONG).show();		
+                List<Product> resultList = new ArrayList<Product>();
                 for (Product prod : ProductsHelper.getProductList())
                 {
                 	if (prod.getEan().compareTo(contents) == 0 || prod.getEan().contains(contents)) 
                 	{
                 		currentProd = prod;
+                		resultList.add(currentProd);
                 		ProductsHelper.setCurrentItem(prod);
                         productFound = true;
                 	}
                 }
+                String[] producerList = new String[resultList.size()];
+
+//                Toast.makeText(MainActivity.this.applicationContext,"Product found? : " + contents , Toast.LENGTH_LONG).show();		
+
                 if (productFound)
                 {
+//                    Toast.makeText(MainActivity.this.applicationContext,"PRODUCT FOUND!" + currentProd.getName(), Toast.LENGTH_LONG).show();	
+
                 	BarcodeAlertDialog alertDialog;
 					if (currentProd.getCategory().contentEquals("Brot"))
-						alertDialog = new BarcodeAlertDialog(act, "Produkt gefunden: " + currentProd.getName(), R.style.style_product_bread, productFound);
+					{
+						if(resultList.size()>1)
+						{
+							for(int i = 0; i < resultList.size(); i++)
+							{
+								producerList[i] = resultList.get(i).getProducer();
+							}
+							alertDialog = new BarcodeAlertDialog(act, "Brot von mehreren Herstellern: " + currentProd.getName(), R.style.style_product_bread, productFound, producerList);
+						}
+						else
+						{
+							alertDialog = new BarcodeAlertDialog(act, "Brot gefunden: " + currentProd.getName(), R.style.style_product_bread, productFound);
+						}
+					}
 					else
+					{
 						alertDialog  = new BarcodeAlertDialog(act, "Produkt gefunden: " + currentProd.getName(), R.style.style_product_found, productFound);
+					}
             		alertDialog.show();
-//                  Toast.makeText(MainActivity.this.applicationContext,"PRODUCT IS KOSHER!", Toast.LENGTH_LONG).show();	
+                  Toast.makeText(MainActivity.this.applicationContext,"Produkt gefunden: !", Toast.LENGTH_LONG).show();	
                 }
                 else
                 {
             		BarcodeAlertDialog alertDialog= new BarcodeAlertDialog(act, "Produkt nicht gefunden", R.style.style_product_not_found, productFound);
             		alertDialog.show();
-//                    Toast.makeText(MainActivity.this.applicationContext,"NO PRODUCT FOUND: NOT KOSHER!", Toast.LENGTH_LONG).show();	
+                    Toast.makeText(MainActivity.this.applicationContext,"Kein Produkt gefunden!", Toast.LENGTH_LONG).show();	
                 }
 
             } else if (resultCode == RESULT_CANCELED) {

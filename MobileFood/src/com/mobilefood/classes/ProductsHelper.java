@@ -1,6 +1,7 @@
 package com.mobilefood.classes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,11 +18,13 @@ public class ProductsHelper {
 	private static Product currentItem;
 	private static String currentProducer = "";
 	private static String currentCategory = "";
+	private static String[] producerListFromSearch;
 	
 	/**
 	 * @return the productsList
 	 */
 	public static List<Product> getProductList() {
+		Collections.sort(productList);
 		return productList;
 	}
 
@@ -41,6 +44,8 @@ public class ProductsHelper {
         	productListString.add(prod.getName());
         	productNameToEan.put(prod.getName(), prod.getEan());
         }
+//        Collections.sort(productListString);
+//        System.out.println(productListString.toArray().toString());
         return productListString;
 	}
 	
@@ -229,6 +234,16 @@ public class ProductsHelper {
 				categoryList.add(prod.getCategory());
 		}
 		return categoryList;	
+	}
+
+	public static void setProducerListFromSearch(String[] producerList) {
+		// TODO Auto-generated method stub
+		ProductsHelper.producerListFromSearch = producerList;
+	}
+
+	public static String[] getProducerListFromSearch() {
+		// TODO Auto-generated method stub
+		return ProductsHelper.producerListFromSearch;
 	}
 
 }

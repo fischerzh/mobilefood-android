@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ProducerActivity extends Activity{
 	
@@ -26,7 +27,8 @@ public class ProducerActivity extends Activity{
 	private ArrayAdapter adapter;
 	private EditText editTxt;
     private ArrayList<Product> originalProducts;
-	
+    private boolean hasProducerList = false;
+    private String[] producerList;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,29 @@ public class ProducerActivity extends Activity{
         listView = (ListView) findViewById(R.id.producer_list_view);
         editTxt = (EditText) findViewById(R.id.producer_search_box);
         
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ProductsHelper.getProducerList());
+//        hasProducerList = getIntent().hasExtra("ProducerList");
+        if(ProductsHelper.getProducerListFromSearch() != null)
+        {
+	        if(ProductsHelper.getProducerListFromSearch().length > 0)
+	        {
+	            Toast.makeText(getApplicationContext(),"Got Product List: " + ProductsHelper.getProducerListFromSearch().toString(), Toast.LENGTH_LONG).show();	
+	            hasProducerList = true;
+	        }
+        }
+        
+        if(hasProducerList)
+        {
+            producerList = ProductsHelper.getProducerListFromSearch();
+//        	System.out.println("Producer List: " + producerList.toString());
+//        	
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, producerList);
+//            
+        }
+        else
+        {
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ProductsHelper.getProducerList());
+        }
+
         listView.setAdapter(adapter);
         
         listView.setTextFilterEnabled(true);
@@ -54,7 +78,10 @@ public class ProducerActivity extends Activity{
 				System.out.println("Position clicked: " + position + " " + listView.getItemAtPosition(position));
 				
 				currentProducer = (String) listView.getItemAtPosition(position);
+//				ProductsHelper.getProducerListFromSearch().
+//        		ProductsHelper.setCurrentItem(prod);
 
+				ProductsHelper.setProducerListFromSearch(null);
 			    ProductsHelper.setCurrentProducer(currentProducer);
 //				ProductInfoActivity.callMe(adapter.getContext());
 				Intent intent = new Intent(ProducerActivity.this, ProductActivity.class);

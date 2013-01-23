@@ -8,7 +8,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Product implements Serializable{
+public class Product implements Serializable, Comparable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -16,16 +16,16 @@ public class Product implements Serializable{
 	private int id;
 	
 	@SerializedName("ean")
-	private String ean = "";
+	private String ean = " ";
 	
 	@SerializedName("name")
-	private String name = "";
+	private String name = " ";
 
 	@SerializedName("producer")
-	private String producer = "";
+	private String producer = " ";
 	
 	@SerializedName("controller")
-	private String controller = "";
+	private String controller = " ";
 
 	@SerializedName("category")
 	private String category = "";
@@ -43,7 +43,7 @@ public class Product implements Serializable{
 	private boolean parve=false;
 	
 	@SerializedName("comment")
-	private String comment;
+	private String comment="";
 	
 	
 	private boolean isFavorite;
@@ -72,7 +72,7 @@ public class Product implements Serializable{
 	 * @return the ean
 	 */
 	public String getEan() {
-		return ean;
+		return (ean!=null?ean:"");
 	}
 	
 	/**
@@ -86,21 +86,21 @@ public class Product implements Serializable{
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		return (name!=null?name:"");
 	}
 
 	/**
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.trim();
 	}
 
 	/**
 	 * @return the producer
 	 */
 	public String getProducer() {
-		return producer;
+		return (producer!=null?producer:"");
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class Product implements Serializable{
 	 * @return the controller
 	 */
 	public String getController() {
-		return controller;
+		return (controller!=null?controller:"");
 	}
 
 	/**
@@ -232,6 +232,14 @@ public class Product implements Serializable{
 	 */
 	public void setParve(boolean parve) {
 		this.parve = parve;
+	}
+
+	@Override
+	public int compareTo(Object obj) {
+		// TODO Auto-generated method stub
+		Product prod = (Product)obj;
+		return(this.name.compareToIgnoreCase(prod.getName()));
+
 	}
 	
 	
