@@ -19,6 +19,7 @@ public class ProductsHelper {
 	private static String currentProducer = "";
 	private static String currentCategory = "";
 	private static String[] producerListFromSearch;
+	private static String productSearchTxt = "";
 	
 	/**
 	 * @return the productsList
@@ -244,6 +245,16 @@ public class ProductsHelper {
 	public static String[] getProducerListFromSearch() {
 		// TODO Auto-generated method stub
 		return ProductsHelper.producerListFromSearch;
+	}
+
+	public static String getProdSearchText() {
+		// TODO Auto-generated method stub
+		return ProductsHelper.productSearchTxt;
+	}
+
+	public static void setProdSearchText(String text) {
+		// TODO Auto-generated method stub
+		ProductsHelper.productSearchTxt = text;
 	}
 
 }

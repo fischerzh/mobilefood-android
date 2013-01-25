@@ -165,6 +165,7 @@ public class MainActivity extends Activity {
 //                    Toast.makeText(MainActivity.this.applicationContext,"PRODUCT FOUND!" + currentProd.getName(), Toast.LENGTH_LONG).show();	
 
                 	BarcodeAlertDialog alertDialog;
+                	
 					if (currentProd.getCategory().contentEquals("Brot"))
 					{
 						if(resultList.size()>1)
@@ -173,7 +174,7 @@ public class MainActivity extends Activity {
 							{
 								producerList[i] = resultList.get(i).getProducer();
 							}
-							alertDialog = new BarcodeAlertDialog(act, "Brot von mehreren Herstellern: " + currentProd.getName(), R.style.style_product_bread, productFound, producerList);
+							alertDialog = new BarcodeAlertDialog(act, "Brot gefunden: " + currentProd.getName() +" \n Mehrere Hersteller vorhanden!", R.style.style_product_bread, productFound, producerList);
 						}
 						else
 						{
@@ -184,8 +185,9 @@ public class MainActivity extends Activity {
 					{
 						alertDialog  = new BarcodeAlertDialog(act, "Produkt gefunden: " + currentProd.getName(), R.style.style_product_found, productFound);
 					}
+					
             		alertDialog.show();
-                  Toast.makeText(MainActivity.this.applicationContext,"Produkt gefunden: !", Toast.LENGTH_LONG).show();	
+            		Toast.makeText(MainActivity.this.applicationContext,"Produkt gefunden: !", Toast.LENGTH_LONG).show();	
                 }
                 else
                 {

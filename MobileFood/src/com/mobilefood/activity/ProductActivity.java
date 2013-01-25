@@ -77,10 +77,12 @@ public class ProductActivity extends Activity{
 //            ProductsHelper.setCurrentCategory("");
         }
 
+        
         listView.setAdapter(adapter);
         
         listView.setTextFilterEnabled(true);
         listView.setClickable(true);
+        
         
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -98,11 +100,11 @@ public class ProductActivity extends Activity{
 			    Intent intent = new Intent(ProductActivity.this, ProductInfoActivity.class);
 		        if(getCallingActivity() != null )
 		        {
-			        if(getCallingActivity().getShortClassName().contains("ProducerActivity"))
+			        if(getCallingActivity().getShortClassName().contains("ProducerActivity") || getIntent().hasExtra("Producer"))
 					{
 						intent.putExtra("Producer", ProductsHelper.getCurrentProducer());
 					}
-					else if (getCallingActivity().getShortClassName().contains("CategoryActivity"))
+					else if (getCallingActivity().getShortClassName().contains("CategoryActivity") || getIntent().hasExtra("Category"))
 					{
 						intent.putExtra("Category", ProductsHelper.getCurrentCategory());
 					}
@@ -130,13 +132,26 @@ public class ProductActivity extends Activity{
            public void afterTextChanged( Editable arg0)
            {
                // TODO Auto-generated method stub
+        	   if(arg0.equals(""))
+        	   {
+        		   ProductsHelper.setProdSearchText(null);
+        	   }
+        	   else
+        	   {
+        		   ProductsHelper.setProdSearchText(arg0.toString());
+        	   }
         	   System.out.println("Call filter: " + arg0);
         	   ProductActivity.this.adapter.getFilter().filter(arg0);
            }
            
        });
         
-        
+        if(ProductsHelper.getProdSearchText()!=null)
+        {
+        	this.editTxt.setText(ProductsHelper.getProdSearchText());
+        	ProductActivity.this.adapter.getFilter().filter(ProductsHelper.getProdSearchText());
+
+        }
 	}
 	
     public void onHomeClick(View view)
@@ -169,16 +184,26 @@ public class ProductActivity extends Activity{
     	}
     	else if(getCallingActivity().getShortClassName().contains("ProducerActivity") || hasProducer)
     	{
+    		ProductsHelper.setCurrentProducer(null);
+    		ProductsHelper.setCurrentItem(null);
+    		ProductsHelper.setProdSearchText(null);
     		intent = new Intent(ProductActivity.this, ProducerActivity.class);
     		startActivity(intent);
     	}
     	else if(getCallingActivity().getShortClassName().contains("CategoryActivity") || hasCategory)
     	{
+    		ProductsHelper.setCurrentCategory(null);
+    		ProductsHelper.setCurrentItem(null);
+    		ProductsHelper.setProdSearchText(null);
     		intent = new Intent(ProductActivity.this, CategoryActivity.class);
     		startActivity(intent);
     	}    	
     	else
     	{
+    		ProductsHelper.setCurrentItem(null);
+    		ProductsHelper.setCurrentProducer(null);
+    		ProductsHelper.setCurrentCategory(null);
+    		ProductsHelper.setProdSearchText(null);
         	MainActivity.callMe(ProductActivity.this, false);
     	}
     }

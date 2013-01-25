@@ -16,7 +16,7 @@ public class BarcodeAlertDialog extends AlertDialog
 	
 	public BarcodeAlertDialog (Context context, String text, int theme, boolean found, String[] producerList) {
 		super(context, theme); 
-		setMessage(text+producerList.toString()); 
+		setMessage(text); 
 		setCancelable(true); 
 		final String[] prodList = producerList;
 		if(found)
@@ -28,6 +28,7 @@ public class BarcodeAlertDialog extends AlertDialog
 					dialog.cancel();
 					Intent intent = new Intent(getContext(), ProducerActivity.class);
 					ProductsHelper.setProducerListFromSearch(prodList);
+					ProductsHelper.setProdSearchText(ProductsHelper.getCurrentItem().getName());
 //		    		intent.putExtra("ProducerList", prodList);
 		    		getContext().startActivity(intent);
 				}
