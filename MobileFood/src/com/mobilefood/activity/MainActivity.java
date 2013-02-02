@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_test);
         setTitle("");
         this.act = MainActivity.this;
 //        this.textView = (TextView) findViewById(R.id.TextView01);
@@ -144,7 +144,7 @@ public class MainActivity extends Activity {
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 // Handle successful scan
                 Product currentProd = null;
-                Toast.makeText(MainActivity.this.applicationContext,"Product scanned: " + contents, Toast.LENGTH_LONG).show();		
+//                Toast.makeText(MainActivity.this.applicationContext,"Product scanned: " + contents, Toast.LENGTH_LONG).show();		
                 List<Product> resultList = new ArrayList<Product>();
                 for (Product prod : ProductsHelper.getProductList())
                 {
@@ -187,13 +187,13 @@ public class MainActivity extends Activity {
 					}
 					
             		alertDialog.show();
-            		Toast.makeText(MainActivity.this.applicationContext,"Produkt gefunden: !", Toast.LENGTH_LONG).show();	
+//            		Toast.makeText(MainActivity.this.applicationContext,"Produkt gefunden: !", Toast.LENGTH_LONG).show();	
                 }
                 else
                 {
             		BarcodeAlertDialog alertDialog= new BarcodeAlertDialog(act, "Produkt nicht gefunden", R.style.style_product_not_found, productFound);
             		alertDialog.show();
-                    Toast.makeText(MainActivity.this.applicationContext,"Kein Produkt gefunden!", Toast.LENGTH_LONG).show();	
+//                    Toast.makeText(MainActivity.this.applicationContext,"Kein Produkt gefunden!", Toast.LENGTH_LONG).show();	
                 }
 
             } else if (resultCode == RESULT_CANCELED) {

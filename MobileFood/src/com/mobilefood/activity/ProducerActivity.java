@@ -74,19 +74,29 @@ public class ProducerActivity extends Activity{
 			public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
 //				editTxt.setText("");
 				String currentProducer;
+				Intent intent;
 				
 				System.out.println("Position clicked: " + position + " " + listView.getItemAtPosition(position));
 				
 				currentProducer = (String) listView.getItemAtPosition(position);
 //				ProductsHelper.getProducerListFromSearch().
 //        		ProductsHelper.setCurrentItem(prod);
-
-				ProductsHelper.setProducerListFromSearch(null);
-			    ProductsHelper.setCurrentProducer(currentProducer);
-//				ProductInfoActivity.callMe(adapter.getContext());
-				Intent intent = new Intent(ProducerActivity.this, ProductActivity.class);
-				intent.putExtra("Producer", ProductsHelper.getCurrentProducer());
+				if(hasProducerList)
+				{
+					ProductsHelper.setProducerListFromSearch(null);
+				    ProductsHelper.setCurrentProducer(currentProducer);
+					intent = new Intent(ProducerActivity.this, ProductInfoActivity.class);
+//					intent.putExtra("Producer", ProductsHelper.getCurrentProducer());
+				}
+				else
+				{
+					intent = new Intent(ProducerActivity.this, ProductActivity.class);
+					intent.putExtra("Producer", ProductsHelper.getCurrentProducer());
+				}
 				startActivityForResult(intent, 4);
+
+//				ProductInfoActivity.callMe(adapter.getContext());
+
 			}
 		});
         

@@ -101,6 +101,10 @@ public class ProductInfoActivity extends Activity
 	    		intent = new Intent(ProductInfoActivity.this, FavoritesActivity.class);
 	    		startActivityForResult(intent, 2);
 	    	}
+	    	else
+	    	{
+	    		MainActivity.callMe(ProductInfoActivity.this, false);
+	    	}
     	}
     	else
     	{

@@ -28,7 +28,7 @@ public class BarcodeAlertDialog extends AlertDialog
 					dialog.cancel();
 					Intent intent = new Intent(getContext(), ProducerActivity.class);
 					ProductsHelper.setProducerListFromSearch(prodList);
-					ProductsHelper.setProdSearchText(ProductsHelper.getCurrentItem().getName());
+//					ProductsHelper.setProdSearchText(ProductsHelper.getCurrentItem().getName());
 //		    		intent.putExtra("ProducerList", prodList);
 		    		getContext().startActivity(intent);
 				}
