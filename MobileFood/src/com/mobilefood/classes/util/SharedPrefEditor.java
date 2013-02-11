@@ -17,26 +17,28 @@ import android.content.SharedPreferences;
 public class SharedPrefEditor {
 	
 	private String[] selectionList = {
-		"IK Baden", 
-		"IRG Basel", 
-		"IG Basel", 
-		"JG Bern", 
-		"CIL Genève", 
-		"IG Winterthur",
-		"ICZ", 
-		"IRG Zürich", 
-		"JLG Or Chadasch"};
+			"Israelitische Kultusgemeinde Baden", 
+			"Israelitische Gemeinde Basel", 
+			"Israelitische Religionsgesellschaft Basel (IRGB)", 
+			"Jüdische Gemeinde Bern", 
+			"Israelitische Kultusgemeinde Endingen", 
+			"Communauté Israélite de Genève",
+			"Communauté Israélite de Lausanne et du ct de Vaud", 
+			"Israelitische Gemeinde Winterthur", 
+			"Israelitische Cultusgemeinde Zürich (ICZ)",
+			"Israelitische Religionsgesellschaft Zürich (IRGZ)"};
 	
 	private String[] urlList = {
-		"http://www.uitiwg.ch/products_contents.json", 
-		"http://www.uitiwg.ch/products_contents.json", 
-		"http://www.uitiwg.ch/products_contents.json", 
-		"http://www.uitiwg.ch/products_contents.json", 
-		"http://www.uitiwg.ch/products_contents.json", 
-		"http://46.163.77.113:8080/SKoscher/JSON/Big_produkt_list.json", 
-		"http://46.163.77.113:8080/SKoscher/JSON/Produkt_Brot.json", 
-		"http://46.163.77.113:8080/SKoscher/JSON/ICZ%20Zuerich.json", 
-		"http://46.163.77.113:8080/SKoscher/JSON/Big_produkt_list.json"};
+			"http://46.163.77.113:8080/SKoscher/JSON/IKBaden.json", 
+			"http://46.163.77.113:8080/SKoscher/JSON/IGBasel.json", 
+			"http://46.163.77.113:8080/SKoscher/JSON/IRGBasel.json", 
+			"http://46.163.77.113:8080/SKoscher/JSON/JGBern.json", 
+			"http://46.163.77.113:8080/SKoscher/JSON/IKEndingen.json", 
+			"http://46.163.77.113:8080/SKoscher/JSON/CIGeneve.json", 
+			"http://46.163.77.113:8080/SKoscher/JSON/CILausanneVaud.json", 
+			"http://46.163.77.113:8080/SKoscher/JSON/IGWinterthur.json", 
+			"http://46.163.77.113:8080/SKoscher/JSON/ICZuerich.json",
+			"http://46.163.77.113:8080/SKoscher/JSON/IRGZuerich.json"};
 	
 	private HashMap<String, String> selectionToUrlMap;
 	private String activeURL;

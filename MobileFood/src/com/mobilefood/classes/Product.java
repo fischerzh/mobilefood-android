@@ -45,6 +45,8 @@ public class Product implements Serializable, Comparable{
 	@SerializedName("comment")
 	private String comment="";
 	
+	@SerializedName("prodfamcomment")
+	private String prodfamcomment="";
 	
 	private boolean isFavorite;
 
@@ -232,6 +234,21 @@ public class Product implements Serializable, Comparable{
 	 */
 	public void setParve(boolean parve) {
 		this.parve = parve;
+	}
+	
+	
+	/**
+	 * @return the prodfamcomment
+	 */
+	public String getProdFamComment() {
+		return prodfamcomment;
+	}
+
+	/**
+	 * @param prodfamcomment the prodfamcomment to set
+	 */
+	public void setProdFamComment(String prodfamcomment) {
+		this.prodfamcomment = prodfamcomment;
 	}
 
 	@Override

@@ -54,13 +54,13 @@ public class ProductInfoActivity extends Activity
         	parve = "Ja";
         if(currentProd.isChalavakum())
         	chalavakum = "Ja";
-        prod_koscher.setText("Parve: " + parve + " , Chalavakum: " + chalavakum);    
+        prod_koscher.setText("Koscher: Ja," + "Parve: " + parve + " , Chalavakum: " + chalavakum);    
         
         TextView prod_controller = (TextView) findViewById(R.id.prod_info_controller_txt);
         prod_controller.setText(currentProd.getController());          
         
         TextView prod_notes = (TextView) findViewById(R.id.prod_info_note_txt);
-        prod_notes.setText(currentProd.getComment());
+        prod_notes.setText("Produkt: " + currentProd.getComment() + "\n Produktfamilie: " +currentProd.getProdFamComment());
         
         TextView prod_content = (TextView) findViewById(R.id.prod_info_content_txt);
         prod_content.setText(currentProd.getContentList());
