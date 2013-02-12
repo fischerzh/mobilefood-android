@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,7 +18,11 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -183,9 +188,30 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
     		System.out.println("Start HTTP Download Request..");
             uri = new URI(url);
             HttpGet method = new HttpGet(uri);
+            
+            HttpParams httpParameters = new BasicHttpParams();
+            
+            // Set the default socket timeout (SO_TIMEOUT) 
+            // in milliseconds which is the timeout for waiting for data.
+            HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
+            HttpConnectionParams.setSoTimeout(httpParameters, 20000);
+            
+            httpClient.setParams(httpParameters);
+            
             HttpResponse response = httpClient.execute(method);
+            
             data = response.getEntity().getContent();
-        } catch (Exception e) {
+            
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(),"Keine Internetverbindung!", Toast.LENGTH_LONG).show();
+        
+        } catch (ConnectTimeoutException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(),"Keine Internetverbindung!", Toast.LENGTH_LONG).show();
+
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
 		System.out.println("Finished HTTP Download Request..");

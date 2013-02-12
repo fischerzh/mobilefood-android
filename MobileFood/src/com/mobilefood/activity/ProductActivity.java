@@ -52,6 +52,7 @@ public class ProductActivity extends Activity{
         }
         else if(getCallingActivity().getShortClassName().contains("ProducerActivity") || hasProducer)
 		{
+        	System.out.println("getProducerList");
         	ArrayList<Product> prodFilteredProducer = new ArrayList<Product>();
         	for(Product prod: ProductsHelper.getProductList())
         	{
@@ -65,6 +66,7 @@ public class ProductActivity extends Activity{
 		}
         else if(getCallingActivity().getShortClassName().contains("CategoryActivity") || hasCategory)
         {
+        	System.out.println("getCategoryList");
         	ArrayList<Product> prodFilteredProducer = new ArrayList<Product>();
         	for(Product prod: ProductsHelper.getProductList())
         	{
@@ -150,7 +152,6 @@ public class ProductActivity extends Activity{
         {
         	this.editTxt.setText(ProductsHelper.getProdSearchText());
         	ProductActivity.this.adapter.getFilter().filter(ProductsHelper.getProdSearchText());
-
         }
 	}
 	

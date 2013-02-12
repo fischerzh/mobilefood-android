@@ -114,8 +114,8 @@ public class ProductBaseAdapter extends BaseAdapter implements Filterable{
 		holder.getChkBox().setTag(position);
 		//setValues
 		holder.getTxtName().setText(resultList.get(position).getName());
-		holder.getTxtProducer().setText(resultList.get(position).getProducer());
-		holder.getTxtEan().setText(resultList.get(position).getEan());
+		holder.getTxtProducer().setText("Verpackung: " + resultList.get(position).getPackaging());
+		holder.getTxtEan().setText("Hersteller: " + resultList.get(position).getProducer());
 		holder.getChkBox().setChecked(resultList.get(position).isFavorite());
 		
 //		ProductsHelper.setProductList(resultList);

@@ -83,6 +83,7 @@ public class ProducerActivity extends Activity{
 //        		ProductsHelper.setCurrentItem(prod);
 				if(hasProducerList)
 				{
+					System.out.println("Has multiple producers!" + currentProducer);
 					ProductsHelper.setProducerListFromSearch(null);
 				    ProductsHelper.setCurrentProducer(currentProducer);
 					intent = new Intent(ProducerActivity.this, ProductInfoActivity.class);
@@ -90,6 +91,8 @@ public class ProducerActivity extends Activity{
 				}
 				else
 				{
+					System.out.println("Has one producer: " + currentProducer);
+				    ProductsHelper.setCurrentProducer(currentProducer);
 					intent = new Intent(ProducerActivity.this, ProductActivity.class);
 					intent.putExtra("Producer", ProductsHelper.getCurrentProducer());
 				}

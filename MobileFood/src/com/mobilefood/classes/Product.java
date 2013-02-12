@@ -184,7 +184,7 @@ public class Product implements Serializable, Comparable{
 	 * @return the comment
 	 */
 	public String getComment() {
-		return comment;
+		return (comment!=null?comment:"");
 	}
 
 	/**
@@ -241,7 +241,7 @@ public class Product implements Serializable, Comparable{
 	 * @return the prodfamcomment
 	 */
 	public String getProdFamComment() {
-		return prodfamcomment;
+		return (prodfamcomment!=null?prodfamcomment:"");
 	}
 
 	/**
