@@ -25,7 +25,9 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.MalformedJsonException;
 import com.mobilefood.activity.R;
 import com.mobilefood.classes.Product;
 import com.mobilefood.classes.Products;
@@ -40,6 +42,8 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.Toast;
 
 public class LoadJSON extends AsyncTask<Context, Integer, String> {
@@ -101,8 +105,15 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	 * @return the productList
 	 */
 	public ArrayList<Product> getProductList() {
-		ArrayList<Product> returnList = (ArrayList<Product>)getProductsList().get(0).getProducts();
-		return returnList;
+		if(getProductsList()!=null)
+		{
+			ArrayList<Product> returnList = (ArrayList<Product>)getProductsList().get(0).getProducts();
+			return returnList;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 
@@ -149,7 +160,7 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		SharedPrefEditor editor = new SharedPrefEditor(getContext());
 		ArrayList<Product> prodListFromPrefs = new ArrayList<Product>();
 		prodListFromPrefs = editor.getProductList();
-		if (prodListFromPrefs != null)
+		if (prodListFromPrefs != null && getProductList()!=null)
 		{
 			System.out.println("Prod List from Pref in LoadJSON: " + prodListFromPrefs.toString());
 			System.out.println("Size: " + prodListFromPrefs.size());
@@ -193,8 +204,8 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
             
             // Set the default socket timeout (SO_TIMEOUT) 
             // in milliseconds which is the timeout for waiting for data.
-            HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
-            HttpConnectionParams.setSoTimeout(httpParameters, 20000);
+            HttpConnectionParams.setConnectionTimeout(httpParameters, 30000);
+            HttpConnectionParams.setSoTimeout(httpParameters, 30000);
             
             httpClient.setParams(httpParameters);
             
@@ -204,11 +215,17 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
             
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
-            Toast.makeText(getContext(),"Keine Internetverbindung!", Toast.LENGTH_LONG).show();
+            Message msg = handler.obtainMessage();
+    		msg.arg1 = 1;
+    		msg.obj = (Object)"SocketTimeout: Keine Internet Verbindung!"; 
+    		handler.sendMessage(msg);
         
         } catch (ConnectTimeoutException e) {
             e.printStackTrace();
-            Toast.makeText(getContext(),"Keine Internetverbindung!", Toast.LENGTH_LONG).show();
+            Message msg = handler.obtainMessage();
+    		msg.arg1 = 1;
+    		msg.obj = (Object)"ConnectionTimeout: Keine Internet Verbindung"; 
+    		handler.sendMessage(msg);
 
         } catch (Exception e)
         {
@@ -248,10 +265,31 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		
         List<Products> products = new ArrayList<Products>();
         reader.beginArray();
+        Products product = null;
+        boolean failed=false;
         while (reader.hasNext()) {
-        	Products product = gson.fromJson(reader, Products.class);
-            products.add(product);
+        	try {
+        		product = gson.fromJson(reader, Products.class);
+        		products.add(product);
+        	}
+        	catch (JsonSyntaxException e) {
+
+        		failed = true;
+    			System.out.println("JSON Syntax Exception" + e.toString());
+        	}
+        	catch (Exception e)	{
+        		failed = true;
+        		System.out.println("Exception " + e.toString());
+        	}
+
         }
+    	if(failed)
+    	{
+    		Message msg = handler.obtainMessage();
+    		msg.arg1 = 1;
+    		msg.obj = (Object)"Fehler beim Parsen!"; 
+    		handler.sendMessage(msg);
+    	}
         reader.endArray();
         reader.close();
         System.out.println("Reading finished");
@@ -377,7 +415,7 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 			ProductsHelper.setProductList(getProductsList().get(0).getProducts());
 		else if(result.contentEquals("NOT_READY"))
 		{
-			BarcodeAlertDialog alertDialog = new BarcodeAlertDialog(getContext(), "Internet wird benštigt!", R.style.style_no_internet, false);
+			BarcodeAlertDialog alertDialog = new BarcodeAlertDialog(getContext(), "Fehler im laden der Daten!", R.style.style_no_internet, false);
 			alertDialog.show();
 			
 //          Toast.makeText(getContext(),"Internet wird benštigt!", Toast.LENGTH_LONG).show();	
@@ -396,6 +434,13 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 			dialog.dismiss();
 		}
 	}
+	
+	private final Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+              if(msg.arg1 == 1)
+                    Toast.makeText(getContext(),"Problem in Application: " + msg.obj.toString(), Toast.LENGTH_LONG).show();
+        }
+    };
 
 
  }
