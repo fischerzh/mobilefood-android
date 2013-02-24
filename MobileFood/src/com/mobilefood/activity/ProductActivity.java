@@ -171,7 +171,10 @@ public class ProductActivity extends Activity{
     	Intent intent = null;
     	if(getCallingActivity() == null || getCallingActivity().equals(null))
     	{
-        	MainActivity.callMe(ProductActivity.this, false);
+    		ProductsHelper.setCurrentItem(null);
+    		ProductsHelper.setCurrentProducer(null);
+    		ProductsHelper.setCurrentCategory(null);
+    		ProductsHelper.setProdSearchText(null);        	MainActivity.callMe(ProductActivity.this, false);
     	}
     	else if(getCallingActivity().getShortClassName().contains("ProductActivity") )
     	{

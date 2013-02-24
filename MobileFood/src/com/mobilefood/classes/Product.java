@@ -1,6 +1,7 @@
 package com.mobilefood.classes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Parcel;
@@ -131,7 +132,7 @@ public class Product implements Serializable, Comparable{
 	 * @return the category
 	 */
 	public String getCategory() {
-		return category;
+		return (category!=null?category:"");
 	}
 	/**
 	 * @param category the category to set
@@ -145,18 +146,36 @@ public class Product implements Serializable, Comparable{
 	 * @return the contents
 	 */
 	public List<String> getContents() {
-		return contents;
+
+		if(contents!=null)
+		{
+			return contents;
+		}
+		else
+		{
+			List<String> emptyContent = new ArrayList<String>();
+			emptyContent.add("");
+			return emptyContent;
+		}
 	}
 	
 	public String getContentList() {
 		String delim = "";
 		StringBuilder sb = new StringBuilder();
-		for (String c : contents)
+		if(getContents()!=null)
 		{
-			sb.append(delim).append(c);
-			delim = ",";
+			for (String c : getContents())
+			{
+				sb.append(delim).append(c);
+				delim = ",";
+			}
+			return sb.toString();
 		}
-		return sb.toString();
+		else
+		{
+			return "";
+		}
+
 	}
 
 	/**

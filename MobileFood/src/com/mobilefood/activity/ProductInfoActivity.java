@@ -31,7 +31,7 @@ public class ProductInfoActivity extends Activity
         currentProd = ProductsHelper.getCurrentItem();
         
         System.out.println("Got Product: " + currentProd.getName());
-        System.out.println("Got Content: " + currentProd.getContents().toString());
+//        System.out.println("Got Content: " + currentProd.getContents().toString());
 	
         TextView prod_titel = (TextView) findViewById(R.id.prod_info_prod_txt);
         prod_titel.setText(currentProd.getName());
