@@ -45,11 +45,15 @@ public class FavoritesActivity extends Activity{
 //        adapter = new ProductListAdapter(this, ProductsHelper.getProductList());
         
         ArrayList<Product> favoritesList = new ArrayList<Product>();
-        for (Product prod: ProductsHelper.getProductList())
-        {
-        	if(prod.isFavorite())
-        		favoritesList.add(prod);
-        }
+        if(ProductsHelper.getProductList()!=null)
+		{
+            for (Product prod: ProductsHelper.getProductList())
+            {
+            	if(prod.isFavorite())
+            		favoritesList.add(prod);
+            }
+		}
+
         
 //        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, favoritesList);
         adapter = new ProductBaseAdapter(this, favoritesList);

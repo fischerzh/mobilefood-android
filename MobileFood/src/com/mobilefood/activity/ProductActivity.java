@@ -56,7 +56,7 @@ public class ProductActivity extends Activity{
         	ArrayList<Product> prodFilteredProducer = new ArrayList<Product>();
         	for(Product prod: ProductsHelper.getProductList())
         	{
-        		if(prod.getProducer() == ProductsHelper.getCurrentProducer())
+        		if(prod.getProducer().equalsIgnoreCase(ProductsHelper.getCurrentProducer()))
         		{
         			prodFilteredProducer.add(prod);
         		}
@@ -70,7 +70,7 @@ public class ProductActivity extends Activity{
         	ArrayList<Product> prodFilteredProducer = new ArrayList<Product>();
         	for(Product prod: ProductsHelper.getProductList())
         	{
-        		if(prod.getCategory() == ProductsHelper.getCurrentCategory())
+        		if(prod.getCategory().equalsIgnoreCase(ProductsHelper.getCurrentCategory()))
         		{
         			prodFilteredProducer.add(prod);
         		}

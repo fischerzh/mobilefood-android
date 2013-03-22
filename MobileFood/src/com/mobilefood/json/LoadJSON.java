@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.MalformedJsonException;
+import com.mobilefood.activity.MainActivity;
 import com.mobilefood.activity.R;
 import com.mobilefood.classes.Product;
 import com.mobilefood.classes.Products;
@@ -51,24 +52,27 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 	/* UI Elements */
 	ProgressDialog dialog ;
     private Context cont;
-    
+    public MainActivity activity;
     
 	/* Constants */
     private String jsonURL;
 	private String FILENAME = "products.json";
 	public static final String PREFS_NAME = "DateOfFile";
+	private Boolean isLoaded = false;
 
 	
     /* JSON and Java Objects */
     private List<Products> productsList;
     private ArrayList<Product> productList;
 	private String dateOfFile;
+	
     
     /* Public Constructor */
     public LoadJSON(Activity act, String url)
     {
 		setUrl(url);
 		setContext(act);
+		activity = (MainActivity) act;
 		dialog = new ProgressDialog(getContext());
     }
     
@@ -92,6 +96,22 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		return this.jsonURL;
 	}
 	
+	/**
+	 * @return the isLoaded
+	 */
+	public Boolean getIsLoaded() {
+		return isLoaded;
+	}
+
+
+	/**
+	 * @param isLoaded the isLoaded to set
+	 */
+	public void setIsLoaded(Boolean isLoaded) {
+		this.isLoaded = isLoaded;
+	}
+
+
 	public List<Products> getProductsList() {
 		return productsList;
 	}
@@ -144,14 +164,17 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 		
 //		if(isNetworkAvailable())
 //		{
+		boolean fileRead = false;
 		try {
 			
 			setProductsList(readJsonStreamProducts());
 			System.out.println(productsList.get(0).getProducts().get(0).getName());
 //			System.out.println(productsList.get(0).getProducts().get(0).getEan());
+			fileRead = true;
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+			fileRead = false;
 		}
 //		}
 		publishProgress(100);
@@ -273,22 +296,27 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
         		products.add(product);
         	}
         	catch (JsonSyntaxException e) {
-
+        		setIsLoaded(false);
         		failed = true;
     			System.out.println("JSON Syntax Exception" + e.toString());
         	}
         	catch (Exception e)	{
         		failed = true;
+        		setIsLoaded(true);
         		System.out.println("Exception " + e.toString());
         	}
 
         }
     	if(failed)
     	{
+    		setIsLoaded(false);
     		Message msg = handler.obtainMessage();
     		msg.arg1 = 1;
     		msg.obj = (Object)"Fehler beim Parsen!"; 
     		handler.sendMessage(msg);
+    	}else
+    	{
+    		setIsLoaded(true);
     	}
         reader.endArray();
         reader.close();
@@ -420,6 +448,8 @@ public class LoadJSON extends AsyncTask<Context, Integer, String> {
 			
 //          Toast.makeText(getContext(),"Internet wird benštigt!", Toast.LENGTH_LONG).show();	
 		}
+		this.activity.checkButtonStatus();
+		
 	}
 	
 	protected void onProgressUpdate(Integer... value) {

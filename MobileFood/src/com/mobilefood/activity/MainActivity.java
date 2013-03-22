@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -73,7 +74,6 @@ public class MainActivity extends Activity {
         if(refreshHome)
         	startJSONSync();
         
-        
         //Procucts
         productsButton.setOnClickListener(new Button.OnClickListener() {
         	public void onClick(View v) {
@@ -128,6 +128,8 @@ public class MainActivity extends Activity {
         		startCategoryActivity();
         	}
     	});
+        
+
     }
 
 	/*
@@ -229,6 +231,23 @@ public class MainActivity extends Activity {
     	
     }
     
+    /*
+     * Check to enable or disable button after async JSON read
+     * 
+     */
+    public void checkButtonStatus()
+    {
+        //setDisabled if not Loaded
+        if(ProductsHelper.getProductList()==null || !jsonLoader.getIsLoaded())
+        {
+        	categoryButton.setEnabled(false);
+        	producerButton.setEnabled(false);
+        	favButton.setEnabled(false);
+        	scanButton.setEnabled(false);
+        	productsButton.setEnabled(false);
+        }
+    }
+    
     public void startProductAcitivty()
     {
 //    	ProductActivity.callMe(this);
@@ -256,11 +275,24 @@ public class MainActivity extends Activity {
 		startActivity(intent);
 	}
     
-    @Override
-    public void onBackPressed() {
-    	System.out.println("Back pressed");
-    	return;
-    }
+//    @Override
+//    public void onBackPressed() {
+////    	finish();
+////    	android.os.Process.killProcess(android.os.Process.myPid());
+////    	super.onDestroy();
+////    	System.exit(0);
+//    }
+	
+	@Override
+	public void onBackPressed()
+	{
+		Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+		homeIntent.addCategory(Intent.CATEGORY_HOME);
+		homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(homeIntent);
+	}
+	
+	
     
 	/**
 	 * @return the jsonUrl

@@ -107,5 +107,6 @@ public class BeforeMainActivity extends Activity
 	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 	    return activeNetworkInfo != null;
 	}
+	
 
 }

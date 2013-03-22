@@ -25,8 +25,15 @@ public class ProductsHelper {
 	 * @return the productsList
 	 */
 	public static List<Product> getProductList() {
-		Collections.sort(productList);
-		return productList;
+		if(productList!=null)
+		{
+			Collections.sort(productList);
+			return productList;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**
@@ -211,6 +218,7 @@ public class ProductsHelper {
 			if(!producerList.contains(prod.getProducer()))
 				producerList.add(prod.getProducer());
 		}
+		Collections.sort(producerList);
 		return producerList;
 	}
 	
@@ -234,6 +242,7 @@ public class ProductsHelper {
 			if(!categoryList.contains(prod.getCategory()))
 				categoryList.add(prod.getCategory());
 		}
+		Collections.sort(categoryList);
 		return categoryList;	
 	}
 
